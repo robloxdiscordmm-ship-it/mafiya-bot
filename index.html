@@ -4,67 +4,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UZB GAME</title>
+<title>UZB GAME 2.0</title>
 <style>
 *{box-sizing:border-box}
+:root{--gold:#eac36d;--panel:#191a29;--line:#554b63}
 body{
- margin:0;color:#fff;font-family:Arial,sans-serif;
- background:radial-gradient(ellipse at 15% 10%,#38204f 0%,transparent 40%),
- radial-gradient(ellipse at 90% 85%,#493019 0%,transparent 38%),
- linear-gradient(145deg,#090a12,#171323,#090a12);
- min-height:100vh
+ margin:0;color:#fff;font-family:Arial,sans-serif;min-height:100vh;
+ background:
+ radial-gradient(ellipse at 15% 10%,#41215c88,transparent 40%),
+ radial-gradient(ellipse at 90% 85%,#70431e55,transparent 38%),
+ linear-gradient(145deg,#080a12,#171323,#080a12);
 }
-header{text-align:center;padding:25px 10px;background:#0d0d17dd;border-bottom:1px solid #80602f}
-.logo{font-size:30px;font-weight:900;color:#edc66e;letter-spacing:2px}
-.sub{color:#aaa;font-size:12px;margin-top:7px}
-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;padding:12px;background:#11111bcc}
+header{
+ text-align:center;padding:27px 10px;
+ background:linear-gradient(180deg,#11111eee,#11111e99);
+ border-bottom:1px solid #92703a;
+ box-shadow:0 5px 25px #0008;
+}
+.logo{
+ font-size:32px;font-weight:900;letter-spacing:3px;
+ color:var(--gold);text-shadow:0 0 18px #e9b64d66;
+}
+.sub{color:#aaa;font-size:11px;margin-top:8px;letter-spacing:2px}
+nav{
+ display:flex;justify-content:center;flex-wrap:wrap;gap:7px;
+ padding:12px;background:#10111bdc;position:sticky;top:0;z-index:10;
+ backdrop-filter:blur(12px)
+}
 button{
- border:1px solid #87672f;border-radius:10px;padding:12px;
- background:linear-gradient(135deg,#e8c36c,#a77a30);
- color:#17110a;font-weight:bold;cursor:pointer
+ border:1px solid #a47b39;border-radius:10px;padding:12px;
+ background:linear-gradient(135deg,#f2d48b,#a77a30);
+ color:#17110a;font-weight:bold;cursor:pointer;
+ transition:.2s;box-shadow:0 3px 10px #0005;
 }
-button.secondary{background:#242334;color:white;border-color:#51445f}
-button.red{background:#762e3d;color:white;border-color:#a34b5d}
+button:active{transform:scale(.96)}
+button.secondary{background:linear-gradient(135deg,#353346,#20202e);color:white;border-color:#625a73}
+button.red{background:linear-gradient(135deg,#9b3e4d,#541d2c);color:white;border-color:#a34b5d}
+button:disabled{opacity:.4;cursor:not-allowed}
 input,select{
  width:100%;padding:13px;margin:7px 0;
  border:1px solid #55475f;border-radius:10px;
- background:#191824;color:white;font-size:15px
+ background:#191824;color:white;font-size:15px;
 }
-main{max-width:650px;margin:auto;padding:15px}
+input:focus,select:focus{outline:1px solid var(--gold);border-color:var(--gold)}
+main{max-width:680px;margin:auto;padding:15px}
 .card{
- background:linear-gradient(145deg,#201b2b,#151520);
+ background:linear-gradient(145deg,#211d30,#141520);
  border:1px solid #59466b;border-radius:17px;
  padding:18px;margin:14px 0;
- box-shadow:0 8px 25px #0007
+ box-shadow:0 9px 28px #0008,inset 0 1px #ffffff0b;
 }
-h2{color:#edc66e}
+h2{color:var(--gold)}
 h3{color:#e7d9f0}
 .muted{color:#aaa;font-size:13px}
-.gold{color:#edc66e}
+.gold{color:var(--gold)}
 .full{width:100%;margin-top:9px}
 .hidden{display:none!important}
 .room,.player{
- background:#292438;border:1px solid #55456c;
- border-radius:11px;padding:13px;margin:9px 0
+ background:linear-gradient(135deg,#2b263b,#1d1c2a);
+ border:1px solid #55456c;border-radius:11px;padding:13px;margin:9px 0
 }
-.badge{color:#edc66e;font-size:11px;border:1px solid #98763b;padding:5px 8px;border-radius:20px}
+.badge{color:var(--gold);font-size:11px;border:1px solid #98763b;padding:5px 8px;border-radius:20px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.stat{background:#292438;padding:12px;border-radius:10px;text-align:center}
-.frame{
- padding:12px;border:2px solid #d4a94e;
- border-radius:15px;text-align:center;font-size:27px
+.stat{
+ background:linear-gradient(145deg,#302a43,#1c1c2b);
+ padding:12px;border-radius:10px;text-align:center;border:1px solid #51445f
 }
 footer{text-align:center;color:#777;padding:25px}
+.frame-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.frame-choice{
+ padding:12px 5px;border:1px solid #5d536b;border-radius:12px;
+ background:linear-gradient(145deg,#292638,#191824);
+ color:white;text-align:center;
+}
+.frame-choice.active{border:2px solid #f5d47e;box-shadow:0 0 15px #e8c36d55}
+.section-label{text-align:left;color:#eac36d;margin:18px 0 8px;font-weight:bold}
+.profile-wrap{text-align:center;padding:10px}
+.profile-photo-frame{
+ width:130px;height:130px;margin:10px auto 18px;padding:7px;
+ border-radius:50%;position:relative;
+ background:linear-gradient(145deg,#603916,#e4a65b,#fff0c0,#9a5b27,#42220f);
+ box-shadow:0 0 18px #d58c3877,0 8px 20px #000a,inset 0 2px 5px #fff9;
+ animation:frameGlow 4s ease-in-out infinite;
+}
+.profile-photo-frame:before{
+ content:"";position:absolute;inset:3px;border-radius:50%;
+ border:2px solid #ffffff80;pointer-events:none;
+}
+.profile-photo-frame:after{
+ content:"";position:absolute;inset:-3px;border-radius:50%;
+ border:1px solid #ffffff24;pointer-events:none;
+}
+.profile-photo-frame img{
+ width:100%;height:100%;object-fit:cover;border-radius:50%;
+ border:3px solid #171520;background:#30303a;display:block;
+}
+@keyframes frameGlow{
+ 0%,100%{filter:brightness(1)}
+ 50%{filter:brightness(1.18)}
+}
+/* Metall ramkalar */
+.rf-bronze{background:linear-gradient(135deg,#49230e,#a75b2b,#f1bb7b,#81411d,#361808)}
+.rf-silver{background:linear-gradient(135deg,#555e69,#f5f7f8,#929ba7,#fff,#555e69)}
+.rf-steel{background:linear-gradient(135deg,#182532,#6d8497,#d9e3eb,#526578,#17232e)}
+.rf-copper{background:linear-gradient(135deg,#512715,#a95731,#f5c39a,#b66a3c,#4b2516)}
+.rf-gold{
+ background:linear-gradient(135deg,#684100,#d59b1e,#fff1a1,#b57909,#fff0a0,#694300);
+ box-shadow:0 0 22px #e6b53699,0 8px 20px #000a,inset 0 2px 7px #fff;
+}
+.rf-diamond{
+ background:linear-gradient(135deg,#176b8a,#b8f7ff,#fff,#5dbbe2,#899fff,#fff);
+ box-shadow:0 0 24px #6ceaffaa,0 8px 20px #000a,inset 0 2px 7px #fff;
+}
+.rf-fire{
+ background:linear-gradient(135deg,#610900,#d51d00,#ffbd24,#ff4b00,#7c1000);
+ box-shadow:0 0 24px #ff4b00aa,0 8px 20px #000a;
+}
+.rf-lightning{
+ background:linear-gradient(135deg,#21105e,#5946dc,#eeeaff,#756aff,#170b4b);
+ box-shadow:0 0 24px #7868ffaa,0 8px 20px #000a;
+}
+.premium-card{
+ border:1px solid #b88d43;
+ background:linear-gradient(145deg,#30251b,#191722);
+}
+.frame-preview{
+ width:43px;height:43px;border-radius:50%;display:inline-block;
+ vertical-align:middle;margin-right:7px;padding:3px;
+ box-shadow:0 0 9px #fff3;
+}
+.frame-preview span{display:block;width:100%;height:100%;border-radius:50%;background:#292a35;border:2px solid #171520}
+.small-note{font-size:12px;color:#aaa;line-height:1.5}
 </style>
 </head>
 <body>
-
 <header>
  <div class="logo">♛ UZB GAME</div>
  <div class="sub">SENING O‘YINING — SENING QOIDANG</div>
 </header>
-
 <nav>
  <button onclick="page('home')">Bosh sahifa</button>
  <button onclick="page('rooms')">Xonalar</button>
@@ -73,7 +151,6 @@ footer{text-align:center;color:#777;padding:25px}
  <button onclick="page('profile')">Profil</button>
  <button onclick="page('admin')">🛡 Boshqaruv</button>
 </nav>
-
 <main>
 
 <section id="login" class="card">
@@ -108,53 +185,39 @@ footer{text-align:center;color:#777;padding:25px}
   <label class="muted">O‘yinchilar soni</label>
   <select id="maxPlayers">
    <option>3</option><option>4</option><option>5</option>
-   <option selected>6</option><option>8</option>
-   <option>10</option><option>12</option>
+   <option selected>6</option><option>8</option><option>10</option>
+   <option>12</option>
   </select>
   <label class="muted">Botlar soni</label>
   <select id="botCount">
-   <option value="0">Botlarsiz</option>
-   <option value="1">1 ta bot</option>
-   <option value="2" selected>2 ta bot</option>
-   <option value="3">3 ta bot</option>
-   <option value="4">4 ta bot</option>
-   <option value="5">5 ta bot</option>
-   <option value="6">6 ta bot</option>
-   <option value="7">7 ta bot</option>
-   <option value="8">8 ta bot</option>
-   <option value="9">9 ta bot</option>
-   <option value="10">10 ta bot</option>
-   <option value="11">11 ta bot</option>
+   <option value="0">Botlarsiz</option><option value="1">1 ta bot</option>
+   <option value="2" selected>2 ta bot</option><option value="3">3 ta bot</option>
+   <option value="4">4 ta bot</option><option value="5">5 ta bot</option>
+   <option value="6">6 ta bot</option><option value="7">7 ta bot</option>
+   <option value="8">8 ta bot</option><option value="9">9 ta bot</option>
+   <option value="10">10 ta bot</option><option value="11">11 ta bot</option>
   </select>
   <button class="full" onclick="createRoom()">XONA YARATISH</button>
  </div>
-
  <div class="card">
   <h2>🔐 Xona kodini kiritish</h2>
   <input id="codeInput" maxlength="6" inputmode="numeric" placeholder="6 xonali kod">
   <button class="full" onclick="joinCode()">XONAGA KIRISH</button>
  </div>
-
  <div class="card">
-  <div class="row">
-   <h2>🌍 Ochiq xonalar</h2>
-   <button class="secondary" onclick="renderRooms()">↻</button>
-  </div>
+  <div class="row"><h2>🌍 Ochiq xonalar</h2>
+  <button class="secondary" onclick="renderRooms()">↻</button></div>
   <div id="roomList">Hozircha xona yo‘q.</div>
  </div>
 </section>
 
 <section id="lobby" class="hidden">
  <div class="card">
-  <div class="row">
-   <h2 id="lobbyTitle">MAFIYA</h2>
-   <span class="badge" id="status">KUTMOQDA</span>
-  </div>
+  <div class="row"><h2 id="lobbyTitle">MAFIYA</h2>
+  <span class="badge" id="status">KUTMOQDA</span></div>
   <p class="muted">XONA KODI</p>
-  <div class="row">
-   <h2 class="gold" id="code">000000</h2>
-   <button onclick="copyCode()">NUSXALASH</button>
-  </div>
+  <div class="row"><h2 class="gold" id="code">000000</h2>
+  <button onclick="copyCode()">NUSXALASH</button></div>
   <p>O‘yinchilar: <b id="count"></b></p>
   <div id="players"></div>
   <button class="full" onclick="startGame()">O‘YINNI BOSHLASH</button>
@@ -174,22 +237,20 @@ footer{text-align:center;color:#777;padding:25px}
 </section>
 
 <section id="premium" class="hidden">
- <div class="card">
+ <div class="card premium-card">
   <h2>👑 PREMIUM</h2>
   <p>Maxsus bezaklar va profil imkoniyatlari.</p>
-  <div class="room">✨ Maxsus avatar ramkalari</div>
+  <div class="room">✨ Maxsus metall avatar ramkalari</div>
   <div class="room">🎨 Xona dizaynlari</div>
   <div class="room">🏅 Maxsus nishonlar</div>
   <div class="room">🃏 Rol kartasi dizaynlari</div>
-
   <div class="room">
    <h3>👑 1 haftalik Premium</h3>
-   <p><del>20 000 so‘m</del></p>
-   <h2>10 000 so‘m</h2>
+   <p><del>20 000 so‘m</del></p><h2>10 000 so‘m</h2>
    <span class="badge">50% CHEGIRMA</span>
   </div>
   <button class="full" onclick="buyPremium()">PREMIUM OLISH</button>
-  <p class="muted">Tugmani bossangiz, Telegram orqali administratorga yozishingiz mumkin.</p>
+  <p class="muted">Telegram orqali administratorga yozishingiz mumkin.</p>
   <p class="muted">Premium o‘yin qoidalarida ustunlik bermaydi.</p>
  </div>
 </section>
@@ -197,19 +258,23 @@ footer{text-align:center;color:#777;padding:25px}
 <section id="profile" class="hidden">
  <div class="card">
   <h2>👤 PROFIL</h2>
-  <div class="frame" id="profileFrame">👤</div>
+  <div class="profile-wrap">
+   <div id="profileFrame" class="profile-photo-frame rf-bronze">
+    <img id="profilePhoto" alt="Profil rasmi">
+   </div>
+   <label class="muted">📷 Galereyadan profil rasmi tanlang</label>
+   <input type="file" id="photoInput" accept="image/*">
+  </div>
   <p>Ism: <b id="profileName" class="gold"></b></p>
   <p>Premium: <b id="profilePremium" class="gold">Yo‘q</b></p>
-  <p>Reyting: 0</p>
-  <p>Daraja: Yangi o‘yinchi</p>
+  <p>Reyting: 0</p><p>Daraja: Yangi o‘yinchi</p>
 
-  <h3>🖼 PROFIL RAMKALARI</h3>
-  <div class="grid">
-   <button onclick="setFrame('👑')">👑 Oltin</button>
-   <button onclick="setFrame('💎')">💎 Olmos</button>
-   <button onclick="setFrame('🔥')">🔥 Olov</button>
-   <button onclick="setFrame('⭐')">⭐ Yulduz</button>
-  </div>
+  <h3>🖼 BEPUL RAMKALAR</h3>
+  <div class="frame-grid" id="freeFrames"></div>
+  <h3>👑 PREMIUM RAMKALAR</h3>
+  <div class="frame-grid" id="premiumFrames"></div>
+  <p id="frameMessage" class="small-note">Ramka tanlang.</p>
+
   <button class="full secondary" onclick="changeName()">ISMNI O‘ZGARTIRISH</button>
   <button class="full red" onclick="logout()">CHIQISH</button>
  </div>
@@ -218,192 +283,215 @@ footer{text-align:center;color:#777;padding:25px}
 <section id="admin" class="hidden">
  <div class="card">
   <h2>🛡 ADMIN BOSHQARUVI</h2>
-  <p class="muted">Loyiha egasi uchun sinov boshqaruvi.</p>
+  <p class="muted">Administrator kodi orqali kirish.</p>
+  <div id="adminLogin">
+   <input id="adminPin" type="password" inputmode="numeric" placeholder="Administrator kodi">
+   <button class="full" onclick="unlockAdmin()">KIRISH</button>
+  </div>
+  <div id="adminTools" class="hidden">
+   <h3>👑 O‘zingga Premium berish</h3>
+   <select id="selfDuration">
+    <option value="1">1 kun</option><option value="7" selected>7 kun</option>
+    <option value="30">30 kun</option><option value="permanent">Muddatsiz</option>
+   </select>
+   <button class="full" onclick="grantSelf()">O‘ZIMGA PREMIUM BERISH</button>
 
-  <h3>👑 O‘zingga Premium berish</h3>
-  <button class="full" onclick="grantSelf()">O‘ZIMGA PREMIUM BERISH</button>
+   <h3>🎁 O‘yinchiga Premium berish</h3>
+   <input id="premiumUser" placeholder="O‘yinchi ismi">
+   <select id="premiumDuration">
+    <option value="1">1 kun</option><option value="7" selected>7 kun</option>
+    <option value="30">30 kun</option><option value="permanent">Muddatsiz</option>
+   </select>
+   <button class="full" onclick="grantPremium()">PREMIUM BERISH</button>
 
-  <h3>🎁 Boshqa o‘yinchiga Premium berish</h3>
-  <input id="premiumUser" placeholder="O‘yinchi ismi">
-  <button class="full" onclick="grantPremium()">PREMIUM BERISH</button>
+   <h3>🎁 Bepul Premium berish</h3>
+   <input id="freePremiumUser" placeholder="O‘yinchi ismi">
+   <select id="freeDuration">
+    <option value="1">1 kun</option><option value="7" selected>7 kun</option>
+    <option value="30">30 kun</option><option value="permanent">Muddatsiz</option>
+   </select>
+   <button class="full" onclick="grantFreePremium()">BEPUL PREMIUM BERISH</button>
 
-  <h3>🎁 Bepul Premium berish</h3>
-  <input id="freePremiumUser" placeholder="O‘yinchi ismi">
-  <button class="full" onclick="grantFreePremium()">BEPUL PREMIUM BERISH</button>
-
-  <h3>📋 Premium egalari</h3>
-  <div id="premiumUsers"></div>
+   <h3>📋 Premium egalari</h3>
+   <div id="premiumUsers"></div>
+   <button class="full secondary" onclick="lockAdmin()">ADMIN OYNASIDAN CHIQISH</button>
+  </div>
  </div>
 </section>
-
 </main>
 <footer>UZB GAME © 2026</footer>
 
 <script>
 const ADMIN_NAME="omading_bor";
+const ADMIN_PIN="4826";
 let name=localStorage.getItem("uzb_name")||"";
-let rooms=JSON.parse(localStorage.getItem("uzb_v2_rooms")||"[]");
-let friends=JSON.parse(localStorage.getItem("uzb_friends")||"[]");
-let premiumUsers=JSON.parse(localStorage.getItem("uzb_premium")||"{}");
-let selectedFrame=localStorage.getItem("uzb_frame")||"";
+let rooms=read("uzb_v2_rooms",[]);
+let friends=read("uzb_friends",[]);
+let premiumUsers=read("uzb_premium",{});
+let selectedFrame=localStorage.getItem("uzb_frame")||"bronze";
 let active=null;
+let adminUnlocked=false;
 
-const botNames=[
- "Sherzod Bot","Jasur Bot","Malika Bot","Aziz Bot",
- "Madina Bot","Temur Bot","Sardor Bot","Dilnoza Bot",
- "Bekzod Bot","Zarina Bot","Otabek Bot"
-];
-
+function read(key,fallback){
+ try{return JSON.parse(localStorage.getItem(key))??fallback}
+ catch{return fallback}
+}
 function save(){
  localStorage.setItem("uzb_v2_rooms",JSON.stringify(rooms));
 }
-
-function isAdmin(){
- return name.toLowerCase()===ADMIN_NAME;
+function premiumInfo(user){
+ let p=premiumUsers[user];
+ if(!p)return null;
+ if(typeof p==="string")return {label:p,expiresAt:"legacy"};
+ if(p.expiresAt==="permanent"||Number(p.expiresAt)>Date.now())return p;
+ delete premiumUsers[user];
+ localStorage.setItem("uzb_premium",JSON.stringify(premiumUsers));
+ return null;
 }
-
+function hasPremium(user=name){return !!premiumInfo(user)}
+function isAdmin(){return name.toLowerCase()===ADMIN_NAME}
 function login(){
  let n=document.getElementById("nickInput").value.trim();
- if(n.length<2){alert("Ismingizni kiriting!");return;}
- name=n;
- localStorage.setItem("uzb_name",name);
- update();
- page("home");
+ if(n.length<2){alert("Ismingizni kiriting!");return}
+ name=n;localStorage.setItem("uzb_name",name);
+ update();page("home");
 }
-
-function update(){
- document.getElementById("welcome").textContent=name;
- document.getElementById("profileName").textContent=name;
- document.getElementById("profilePremium").textContent=
- premiumUsers[name]||"Yo‘q";
- document.getElementById("homePremium").textContent=
- premiumUsers[name]?"👑 "+premiumUsers[name]:"";
- document.getElementById("profileFrame").textContent=selectedFrame||"👤";
-}
-
 function page(id){
  if(!name&&id!=="login")id="login";
- if(id==="admin"&&!isAdmin()){
-  alert("Bu bo‘lim faqat administrator uchun!");
-  id="home";
+ if(id==="admin"){
+  if(!isAdmin()){alert("Bu bo‘lim faqat loyiha egasi uchun!");id="home"}
  }
- ["login","home","rooms","lobby","friends","premium","profile","admin"].forEach(x=>{
-  document.getElementById(x).classList.toggle("hidden",x!==id);
- });
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
  if(id==="rooms")renderRooms();
  if(id==="lobby")renderLobby();
  if(id==="friends")renderFriends();
- if(id==="admin")renderAdmin();
  if(id==="profile")update();
+ if(id==="admin")renderAdmin();
 }
-
+function update(){
+ if(!name)return;
+ document.getElementById("welcome").textContent=name;
+ document.getElementById("profileName").textContent=name;
+ let p=premiumInfo(name);
+ document.getElementById("profilePremium").textContent=p?(p.label||"Premium faol"):"Yo‘q";
+ document.getElementById("homePremium").textContent=p?"👑 Premium faol":"";
+ let photo=localStorage.getItem(photoKey());
+ document.getElementById("profilePhoto").src=photo||"";
+ document.getElementById("profileFrame").className="profile-photo-frame rf-"+selectedFrame;
+ renderFrames();
+}
+function photoKey(){return "uzb_photo_"+name}
+function frameKey(){return "uzb_frame_"+name}
+const freeFrameData=[
+ ["Bronza","bronze"],["Kumush","silver"],["Po‘lat","steel"],["Mis","copper"]
+];
+const premiumFrameData=[
+ ["Qirollik oltini","gold"],["Olmos","diamond"],["Olov","fire"],["Yashin","lightning"]
+];
+function renderFrameButtons(data,boxId,isPaid){
+ const box=document.getElementById(boxId);box.innerHTML="";
+ data.forEach(([label,key])=>{
+  const b=document.createElement("button");
+  b.className="frame-choice"+(selectedFrame===key?" active":"");
+  b.textContent=(isPaid?"👑 ":"")+label;
+  if(isPaid&&!hasPremium())b.disabled=true;
+  b.onclick=()=>{
+   if(isPaid&&!hasPremium()){alert("Premium kerak!");return}
+   selectedFrame=key;
+   localStorage.setItem(frameKey(),key);
+   localStorage.setItem("uzb_frame",key);
+   document.getElementById("profileFrame").className="profile-photo-frame rf-"+key;
+   document.getElementById("frameMessage").textContent=label+" ramkasi tanlandi!";
+   renderFrames();
+  };
+  box.appendChild(b);
+ });
+}
+function renderFrames(){
+ renderFrameButtons(freeFrameData,"freeFrames",false);
+ renderFrameButtons(premiumFrameData,"premiumFrames",true);
+}
+document.getElementById("photoInput").addEventListener("change",e=>{
+ const file=e.target.files[0];if(!file)return;
+ if(!file.type.startsWith("image/")){alert("Rasm faylini tanlang.");return}
+ if(file.size>2*1024*1024){alert("Rasm 2 MB dan kichik bo‘lishi kerak.");return}
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   localStorage.setItem(photoKey(),reader.result);
+   document.getElementById("profilePhoto").src=reader.result;
+  }catch{alert("Rasmni saqlash uchun xotira yetarli emas.")}
+ };
+ reader.readAsDataURL(file);
+});
 function code(){
- let c;
- do{c=String(Math.floor(100000+Math.random()*900000));}
- while(rooms.some(r=>r.code===c));
- return c;
+ let c;do{c=String(Math.floor(100000+Math.random()*900000))}
+ while(rooms.some(r=>r.code===c));return c;
 }
-
+const botNames=["Sherzod Bot","Jasur Bot","Malika Bot","Aziz Bot","Madina Bot","Temur Bot","Sardor Bot","Dilnoza Bot","Bekzod Bot","Zarina Bot","Otabek Bot"];
 function createRoom(){
  let title=document.getElementById("roomName").value.trim();
  let max=Number(document.getElementById("maxPlayers").value);
  let bots=Number(document.getElementById("botCount").value);
- if(!title){alert("Xona nomini kiriting!");return;}
- if(bots>=max){alert("Kamida bitta joy siz uchun qolishi kerak!");return;}
+ if(!title){alert("Xona nomini kiriting!");return}
+ if(bots>=max){alert("Kamida bitta joy siz uchun qolishi kerak!");return}
  let players=[{name:name,bot:false}];
- for(let i=0;i<bots;i++){
-  players.push({name:botNames[i%botNames.length],bot:true});
- }
- let r={
-  id:Date.now(),name:title,code:code(),
-  type:document.getElementById("roomType").value,
-  max:max,players:players,status:"Kutmoqda",
-  owner:name
- };
- rooms.push(r);
- active=r.id;
- save();
- page("lobby");
+ for(let i=0;i<bots;i++)players.push({name:botNames[i%botNames.length],bot:true});
+ let r={id:Date.now(),name:title,code:code(),type:document.getElementById("roomType").value,max,players,status:"Kutmoqda",owner:name};
+ rooms.push(r);active=r.id;save();page("lobby");
 }
-
 function renderRooms(){
- let box=document.getElementById("roomList");
- box.innerHTML="";
+ let box=document.getElementById("roomList");box.innerHTML="";
  let list=rooms.filter(r=>r.type==="public"&&r.status==="Kutmoqda");
- if(!list.length){box.textContent="Hozircha ochiq xona yo‘q.";return;}
+ if(!list.length){box.textContent="Hozircha ochiq xona yo‘q.";return}
  list.forEach(r=>{
   let d=document.createElement("div");d.className="room";
   let t=document.createElement("b");t.textContent=r.name;
-  let p=document.createElement("p");
-  p.className="muted";
-  p.textContent=r.players.length+"/"+r.max+" o‘yinchi";
-  let b=document.createElement("button");
-  b.className="full";b.textContent="KIRISH";
-  b.onclick=()=>joinRoom(r.id);
+  let p=document.createElement("p");p.className="muted";p.textContent=r.players.length+"/"+r.max+" o‘yinchi";
+  let b=document.createElement("button");b.className="full";b.textContent="KIRISH";b.onclick=()=>joinRoom(r.id);
   d.append(t,p,b);box.append(d);
  });
 }
-
 function joinRoom(id){
  let r=rooms.find(x=>x.id===id);
- if(!r||r.status!=="Kutmoqda"){alert("Xona mavjud emas.");return;}
- if(r.players.some(p=>p.name===name)){active=id;page("lobby");return;}
- if(r.players.length>=r.max){alert("Xona to‘la!");return;}
- r.players.push({name:name,bot:false});
- active=id;save();page("lobby");
+ if(!r||r.status!=="Kutmoqda"){alert("Xona mavjud emas.");return}
+ if(r.players.some(p=>p.name===name)){active=id;page("lobby");return}
+ if(r.players.length>=r.max){alert("Xona to‘la!");return}
+ r.players.push({name:name,bot:false});active=id;save();page("lobby");
 }
-
 function joinCode(){
  let c=document.getElementById("codeInput").value.trim();
  let r=rooms.find(x=>x.code===c&&x.type==="private");
- if(!r){alert("Xona topilmadi!");return;}
- joinRoom(r.id);
+ if(!r){alert("Xona topilmadi!");return}joinRoom(r.id);
 }
-
 function renderLobby(){
- let r=rooms.find(x=>x.id===active);
- if(!r){page("rooms");return;}
+ let r=rooms.find(x=>x.id===active);if(!r){page("rooms");return}
  document.getElementById("lobbyTitle").textContent=r.name;
  document.getElementById("code").textContent=r.type==="private"?r.code:"OCHIQ";
  document.getElementById("status").textContent=r.status.toUpperCase();
  document.getElementById("count").textContent=r.players.length+"/"+r.max;
- let box=document.getElementById("players");
- box.innerHTML="";
+ let box=document.getElementById("players");box.innerHTML="";
  r.players.forEach(p=>{
-  let d=document.createElement("div");
-  d.className="player";
-  d.textContent=(p.bot?"🤖 ":"👤 ")+p.name+
-   (p.name===r.owner?" — XONA EGASI":"");
+  let d=document.createElement("div");d.className="player";
+  d.textContent=(p.bot?"🤖 ":"👤 ")+p.name+(p.name===r.owner?" — XONA EGASI":"");
   box.append(d);
  });
  document.getElementById("gameResult").textContent="";
 }
-
 function copyCode(){
- let r=rooms.find(x=>x.id===active);
- if(!r||r.type!=="private")return;
- if(navigator.clipboard){
-  navigator.clipboard.writeText(r.code)
-  .then(()=>alert("Kod nusxalandi!"))
-  .catch(()=>alert("Xona kodi: "+r.code));
- }else alert("Xona kodi: "+r.code);
+ let r=rooms.find(x=>x.id===active);if(!r||r.type!=="private")return;
+ if(navigator.clipboard)navigator.clipboard.writeText(r.code).then(()=>alert("Kod nusxalandi!")).catch(()=>alert("Xona kodi: "+r.code));
+ else alert("Xona kodi: "+r.code);
 }
-
 function startGame(){
- let r=rooms.find(x=>x.id===active);
- if(!r)return;
- if(r.owner!==name){
-  alert("Faqat xona egasi o‘yinni boshlashi mumkin!");
-  return;
- }
- if(r.players.length<3){alert("Kamida 3 o‘yinchi kerak!");return;}
- r.status="O‘yin boshlandi";
- save();
+ let r=rooms.find(x=>x.id===active);if(!r)return;
+ if(r.owner!==name){alert("Faqat xona egasi boshlashi mumkin!");return}
+ if(r.players.length<3){alert("Kamida 3 o‘yinchi kerak!");return}
+ r.status="O‘yin boshlandi";save();
  document.getElementById("status").textContent="O‘YIN BOSHLANDI";
- document.getElementById("gameResult").textContent=
- "Sinov o‘yini boshlandi. Haqiqiy rollar va bot harakatlari keyingi bosqichda qo‘shiladi.";
+ document.getElementById("gameResult").textContent="Sinov o‘yini boshlandi. Haqiqiy rollar va bot harakatlari keyingi bosqichda qo‘shiladi.";
 }
-
 function leaveRoom(){
  let r=rooms.find(x=>x.id===active);
  if(r){
@@ -413,122 +501,4 @@ function leaveRoom(){
  }
  active=null;page("rooms");
 }
-
-function addFriend(){
- let f=document.getElementById("friendName").value.trim();
- if(f.length<2){alert("Do‘st ismini kiriting!");return;}
- if(f.toLowerCase()===name.toLowerCase()){
-  alert("O‘zingizni do‘st sifatida qo‘sha olmaysiz!");return;
- }
- if(friends.some(x=>x.toLowerCase()===f.toLowerCase())){
-  alert("Bu do‘st ro‘yxatda bor!");return;
- }
- friends.push(f);
- localStorage.setItem("uzb_friends",JSON.stringify(friends));
- document.getElementById("friendName").value="";
- renderFriends();
-}
-
-function renderFriends(){
- let box=document.getElementById("friendList");
- box.innerHTML="";
- if(!friends.length){
-  box.textContent="Hozircha do‘stlar yo‘q.";return;
- }
- friends.forEach((f,i)=>{
-  let d=document.createElement("div");
-  d.className="room";
-  let t=document.createElement("span");
-  t.textContent="👤 "+f;
-  let b=document.createElement("button");
-  b.className="red";
-  b.textContent="O‘CHIRISH";
-  b.onclick=()=>{
-   friends.splice(i,1);
-   localStorage.setItem("uzb_friends",JSON.stringify(friends));
-   renderFriends();
-  };
-  d.append(t,b);box.append(d);
- });
-}
-
-function setFrame(frame){
- if(!premiumUsers[name]){
-  alert("Maxsus ramkalar uchun Premium kerak!");
-  return;
- }
- selectedFrame=frame;
- localStorage.setItem("uzb_frame",frame);
- update();
- alert("Ramka tanlandi!");
-}
-
-function buyPremium(){
- let message="Salom! Men UZB GAME uchun 1 haftalik Premium olmoqchiman. Narxi: 10 000 so‘m.";
- let url="https://t.me/omading_bor?text="+encodeURIComponent(message);
- window.open(url,"_blank");
-}
-
-function renderAdmin(){
- let box=document.getElementById("premiumUsers");
- box.innerHTML="";
- let keys=Object.keys(premiumUsers);
- if(!keys.length){
-  box.textContent="Hozircha Premium berilmagan.";return;
- }
- keys.forEach(u=>{
-  let d=document.createElement("div");
-  d.className="room";
-  d.textContent="👑 "+u+" — "+premiumUsers[u];
-  box.append(d);
- });
-}
-
-function grantSelf(){
- if(!isAdmin()){alert("Ruxsat yo‘q!");return;}
- premiumUsers[name]="1 haftalik Premium";
- localStorage.setItem("uzb_premium",JSON.stringify(premiumUsers));
- update();renderAdmin();
- alert("Sizga Premium berildi!");
-}
-
-function grantPremium(){
- if(!isAdmin()){alert("Ruxsat yo‘q!");return;}
- let u=document.getElementById("premiumUser").value.trim();
- if(u.length<2){alert("O‘yinchi ismini kiriting!");return;}
- premiumUsers[u]="1 haftalik Premium";
- localStorage.setItem("uzb_premium",JSON.stringify(premiumUsers));
- renderAdmin();
- alert(u+" ga Premium berildi!");
-}
-
-function grantFreePremium(){
- if(!isAdmin()){alert("Ruxsat yo‘q!");return;}
- let u=document.getElementById("freePremiumUser").value.trim();
- if(u.length<2){alert("O‘yinchi ismini kiriting!");return;}
- premiumUsers[u]="Bepul 1 haftalik Premium";
- localStorage.setItem("uzb_premium",JSON.stringify(premiumUsers));
- renderAdmin();
- alert(u+" ga bepul Premium berildi!");
-}
-
-function changeName(){
- let n=prompt("Yangi ism:",name);
- if(n&&n.trim().length>=2){
-  name=n.trim();
-  localStorage.setItem("uzb_name",name);
-  update();
- }
-}
-
-function logout(){
- name="";
- localStorage.removeItem("uzb_name");
- page("login");
-}
-
-if(name){update();page("home");}
-else page("login");
-</script>
-</body>
-</html>
+function addFriend(
