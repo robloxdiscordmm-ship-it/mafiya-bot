@@ -1,273 +1,357 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UZB GAME</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#101522;color:white;
- font-family:Arial,sans-serif;padding:22px;
-}
-header{text-align:center;padding:25px 0}
-.logo{font-size:45px}
-h1{color:#e9bd65;letter-spacing:3px}
-.subtitle{color:#9ba5b8}
-h2{font-size:19px;margin-top:30px}
-.card{
- background:#202b40;border:1px solid #35435b;
- border-radius:18px;padding:20px;margin:14px 0;
-}
-.mafia{
- background:linear-gradient(130deg,#263c61,#172239);
-}
-.game-icon{font-size:38px}
-button{
- width:100%;border:0;border-radius:13px;
- padding:15px;margin-top:12px;
- background:#d9a84e;color:#151a25;
- font-weight:bold;font-size:16px;
-}
-.secondary{background:#35445d;color:white}
-.info{color:#aebbd0;font-size:14px}
-footer{text-align:center;color:#8490a5;margin:30px 0}
+body{margin:0;background:#0b0c10;color:#f5f5f5;font-family:Arial,sans-serif}
+header{background:#15161d;padding:18px;text-align:center;border-bottom:1px solid #80652d}
+.logo{font-size:27px;font-weight:bold;color:#e9bd61}
+nav{display:flex;gap:8px;padding:12px;overflow:auto;background:#13141a}
+nav button{min-width:100px;margin:0}
+button{border:0;border-radius:9px;padding:13px;background:#d5aa51;color:#15120b;font-weight:bold;cursor:pointer}
+button.secondary{background:#30323d;color:white;border:1px solid #555}
+button.danger{background:#8d3030;color:white}
+input,select{width:100%;padding:13px;background:#22242d;color:white;border:1px solid #454752;border-radius:9px;margin:7px 0}
+main{max-width:650px;margin:auto;padding:14px}
+.card{background:#171921;border:1px solid #34333a;border-radius:15px;padding:17px;margin:13px 0}
+h2{color:#e9bd61;font-size:21px}
+h3{font-size:17px}
+.muted{color:#a7a8b1;font-size:13px}
+.gold{color:#e9bd61}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.full{width:100%;margin-top:9px}
+.hidden{display:none!important}
+.room{background:#22242d;border:1px solid #44404a;border-radius:11px;padding:13px;margin:10px 0}
+.tag{font-size:11px;color:#e9bd61;border:1px solid #80652d;padding:5px 8px;border-radius:20px}
+.player{background:#22242d;padding:12px;border-radius:9px;margin:7px 0}
+input[type=checkbox]{width:auto}
+footer{text-align:center;color:#777;padding:25px;font-size:12px}
 </style>
 </head>
 <body>
+
 <header>
- <div class="logo">🏰</div>
- <h1>UZB GAME</h1>
- <div class="subtitle">O‘yinlar olamiga xush kelibsiz!</div>
+ <div class="logo">♛ UZB GAME</div>
+ <div class="muted">O‘yinlar olamiga xush kelibsiz</div>
 </header>
 
-<div class="card">
- <h2>👤 Xush kelibsiz!</h2>
- <p class="info" id="username">O‘yinchi</p>
- <p>🏆 Reyting: <b>0</b></p>
-</div>
+<nav>
+ <button onclick="showPage('home')">Bosh sahifa</button>
+ <button onclick="showPage('rooms')">Xonalar</button>
+ <button onclick="showPage('premium')">Premium</button>
+ <button onclick="showPage('profile')">Profil</button>
+</nav>
 
-<h2>🎮 O‘yinlar</h2>
+<main>
 
-<div class="card mafia">
- <div class="game-icon">🕵️</div>
- <h2>MAFIYA</h2>
- <p class="info">Do‘stlaring bilan sirli rollar
- va mantiqiy bahsga asoslangan o‘yin!</p>
- <button onclick="mafia()">MAFIYA O‘YINIGA KIRISH</button>
-</div>
+<!-- KIRISH -->
+<section id="login" class="card">
+ <h2>UZB GAME ga kirish</h2>
+ <p class="muted">O‘yinga qo‘shilish uchun ismingizni kiriting.</p>
+ <input id="nickname" maxlength="20" placeholder="O‘yinchi nomi">
+ <button class="full" onclick="login()">KIRISH</button>
+</section>
 
-<div class="card">
- <div class="game-icon">❌</div>
- <h2>X VA O</h2>
- <p class="info">Ikki kishilik aql o‘yini.</p>
- <button class="secondary" onclick="coming()">Tez kunda</button>
-</div>
+<!-- BOSH SAHIFA -->
+<section id="home" class="hidden">
+ <div class="card">
+  <h2>Assalomu alaykum!</h2>
+  <p>UZB GAME platformasiga xush kelibsiz.</p>
+  <p class="muted">O‘yinchi: <b id="welcomeName" class="gold"></b></p>
+  <button class="full" onclick="showPage('rooms')">🎮 O‘YINLARNI KO‘RISH</button>
+ </div>
 
-<div class="card">
- <div class="game-icon">🧠</div>
- <h2>VIKTORINA</h2>
- <p class="info">Bilimingni sinab ko‘r!</p>
- <button class="secondary" onclick="coming()">Tez kunda</button>
-</div>
+ <div class="card">
+  <h2>🕵️ MAFIYA</h2>
+  <p class="muted">Do‘stlaringiz bilan aql va strategiya o‘yini.</p>
+  <p>👥 6–20 o‘yinchi</p>
+  <button class="full" onclick="showPage('rooms')">MAFIYA O‘YINIGA KIRISH</button>
+ </div>
+</section>
 
-<div class="card">
- <h2>👥 Do‘stlar</h2>
- <p class="info">Do‘stlaringni taklif qilib birga o‘yna.</p>
- <button class="secondary" onclick="share()">Taklif qilish</button>
-</div>
+<!-- XONALAR -->
+<section id="rooms" class="hidden">
+ <div class="card">
+  <h2>🏠 Xona yaratish</h2>
+  <input id="newRoomName" maxlength="30" placeholder="Xona nomi">
+  <select id="newRoomType">
+   <option value="public">🌍 Kodsiz — hammaga ochiq</option>
+   <option value="private">🔐 Kodli — maxfiy xona</option>
+  </select>
+  <select id="newRoomMax">
+   <option value="6">6 o‘yinchi</option>
+   <option value="8">8 o‘yinchi</option>
+   <option value="10">10 o‘yinchi</option>
+   <option value="15">15 o‘yinchi</option>
+   <option value="20" selected>20 o‘yinchi</option>
+  </select>
+  <select id="roleMode">
+   <option value="auto">Rollar avtomatik tanlansin</option>
+   <option value="manual">Rollarni xona egasi tanlasin</option>
+  </select>
+  <button class="full" onclick="createRoom()">+ XONA YARATISH</button>
+ </div>
+
+ <div class="card">
+  <h2>🔐 Xona kodini kiritish</h2>
+  <input id="codeInput" maxlength="6" inputmode="numeric" placeholder="6 xonali kod">
+  <button class="full" onclick="joinCode()">KOD ORQALI KIRISH</button>
+ </div>
+
+ <div class="card">
+  <div class="row">
+   <h2>🌍 Ochiq xonalar</h2>
+   <button class="secondary" onclick="renderRooms()">↻</button>
+  </div>
+  <div id="publicRooms"></div>
+ </div>
+</section>
+
+<!-- LOBBY -->
+<section id="lobby" class="hidden">
+ <div class="card">
+  <div class="row">
+   <h2 id="lobbyName">Mafiya xonasi</h2>
+   <span class="tag" id="lobbyStatus">KUTMOQDA</span>
+  </div>
+  <p class="muted">Xona kodi</p>
+  <div class="row">
+   <h2 class="gold" id="lobbyCode">000000</h2>
+   <button onclick="copyCode()">NUSXALASH</button>
+  </div>
+  <p>O‘yinchilar: <b id="playerCount">1</b>/<b id="playerMax">20</b></p>
+  <h3>👥 O‘yinchilar ro‘yxati</h3>
+  <div id="playerList"></div>
+  <p class="muted">Rollar: <span id="lobbyRole"></span></p>
+  <div id="ownerControls">
+   <button class="full" onclick="startGame()">O‘YINNI BOSHLASH</button>
+  </div>
+  <button class="full secondary" onclick="leaveRoom()">XONADAN CHIQISH</button>
+  <p class="muted" id="lobbyMessage"></p>
+ </div>
+</section>
+
+<!-- PREMIUM -->
+<section id="premium" class="hidden">
+ <div class="card">
+  <h2>👑 PREMIUM</h2>
+  <p>Premium o‘yin ko‘rinishini bezash uchun.</p>
+  <div class="room">✨ Maxsus profil ramkalari</div>
+  <div class="room">🎨 Xona mavzulari</div>
+  <div class="room">🏅 Maxsus nishonlar</div>
+  <div class="room">🃏 Rol kartalari dizayni</div>
+  <p class="muted">Premium o‘yin davomida ustunlik bermaydi.</p>
+  <button class="full" onclick="alert('Premium to‘lov tizimi hali ulanmagan.')">PREMIUM</button>
+ </div>
+</section>
+
+<!-- PROFIL -->
+<section id="profile" class="hidden">
+ <div class="card">
+  <h2>👤 Profil</h2>
+  <p>O‘yinchi: <b id="profileName" class="gold"></b></p>
+  <p>Reyting: 0</p>
+  <p>Daraja: Yangi o‘yinchi</p>
+  <button class="full secondary" onclick="changeName()">ISMNI O‘ZGARTIRISH</button>
+  <button class="full danger" onclick="logout()">CHIQISH</button>
+ </div>
+</section>
+
+</main>
 
 <footer>UZB GAME © 2026</footer>
 
 <script>
-const tg=window.Telegram.WebApp;
-tg.ready();
-tg.expand();
+let nickname=localStorage.getItem("uzb_name")||"";
+let rooms=JSON.parse(localStorage.getItem("uzb_rooms")||"[]");
+let currentRoom=null;
 
-if(tg.initDataUnsafe?.user){
- document.getElementById("username").textContent =
- "Salom, "+(tg.initDataUnsafe.user.first_name||"O‘yinchi");
+function saveRooms(){
+ localStorage.setItem("uzb_rooms",JSON.stringify(rooms));
 }
 
-function mafia(){
- alert("MAFIYA: O‘yin xonalari keyingi bosqichda ulanadi!");
+function login(){
+ let n=document.getElementById("nickname").value.trim();
+ if(n.length<2){alert("Ismingizni kiriting!");return;}
+ nickname=n;
+ localStorage.setItem("uzb_name",nickname);
+ updateProfile();
+ showPage("home");
 }
-function coming(){
- alert("Bu o‘yin tez kunda qo‘shiladi!");
+
+function updateProfile(){
+ document.getElementById("welcomeName").textContent=nickname;
+ document.getElementById("profileName").textContent=nickname;
 }
-function share(){
- if(tg.openTelegramLink){
-  tg.openTelegramLink("https://t.me/share/url?url=https://t.me/UzbGameno1Bot&text=UZB%20GAME%20ga%20qo‘shil!");
+
+function showPage(page){
+ if(!nickname && page!=="login"){
+  page="login";
  }
+ ["login","home","rooms","lobby","premium","profile"].forEach(id=>{
+  document.getElementById(id).classList.toggle("hidden",id!==page);
+ });
+ if(page==="rooms")renderRooms();
+ if(page==="lobby")renderLobby();
 }
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UZB GAME</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#101014;color:#fff;font-family:Arial,sans-serif;padding:16px}
-h1,h2{color:#e8bd55}
-h1{text-align:center}
-.card{background:#202027;border:1px solid #554629;border-radius:15px;padding:16px;margin:14px 0}
-input,select,button{width:100%;padding:13px;margin:7px 0;border:0;border-radius:9px;font-size:16px}
-input,select{background:#303039;color:white}
-button{background:#d5aa48;color:#17130a;font-weight:bold}
-button:disabled{opacity:.5}
-.small{color:#aaa;font-size:13px}
-.room{background:#303039;padding:12px;border-radius:10px;margin:10px 0}
-.gold{color:#e8bd55}
-</style>
-</head>
-<body>
 
-<h1>♛ UZB GAME</h1>
-<p style="text-align:center;color:#aaa">O‘yinlar olamiga xush kelibsiz!</p>
-
-<div class="card">
-<h2>👤 Profil</h2>
-<p>O‘yinchi: <b id="playerName">Mehmon</b></p>
-<p>Reyting: <b>0</b></p>
-<p>Holat: <span class="gold">Oddiy a'zo</span></p>
-</div>
-
-<div class="card">
-<h2>🕵️ MAFIYA</h2>
-<p class="small">6–20 nafar o‘yinchi uchun.</p>
-<h3>Xona yaratish</h3>
-<input id="roomName" placeholder="Xona nomini yozing">
-<select id="roomType">
-<option value="public">Kodsiz — hammaga ochiq</option>
-<option value="private">Kodli — maxfiy xona</option>
-</select>
-<button onclick="createRoom()">🏠 XONA YARATISH</button>
-<div id="newRoom"></div>
-</div>
-
-<div class="card">
-<h2>🔐 Kod orqali kirish</h2>
-<input id="roomCode" placeholder="6 xonali xona kodi" maxlength="6" inputmode="numeric">
-<button onclick="joinByCode()">XONAGA KIRISH</button>
-<p id="joinResult" class="small"></p>
-</div>
-
-<div class="card">
-<h2>🌍 Ochiq xonalar</h2>
-<div id="rooms">Ochiq xonalar hozircha yo‘q.</div>
-</div>
-
-<div class="card">
-<h2>👑 PREMIUM</h2>
-<p>Premium — faqat tashqi ko‘rinish uchun.</p>
-<ul>
-<li>✨ Maxsus profil ramkalari</li>
-<li>🎨 Maxsus xona dizaynlari</li>
-<li>🏅 Premium nishonlar</li>
-<li>🃏 Maxsus rol kartalari dizayni</li>
-</ul>
-<button onclick="alert('Premium xarid qilish tizimi keyingi bosqichda ulanadi.')">PREMIUM HAQIDA</button>
-</div>
-
-<div class="card">
-<h2>🎮 O‘yin qoidalari</h2>
-<p>O‘yinchi soni: 6–20</p>
-<p>Rollar: Don, Mafiya, Komissar, Shifokor, Qo‘riqchi, Jurnalist, Manyak, Professor va Tinch aholi.</p>
-</div>
-
-<script>
-let rooms=[];
-let myRoom=null;
-
-function generateCode(){
- return String(Math.floor(100000+Math.random()*900000));
+function makeCode(){
+ let code;
+ do{
+  code=String(Math.floor(100000+Math.random()*900000));
+ }while(rooms.some(r=>r.code===code));
+ return code;
 }
 
 function createRoom(){
- const name=document.getElementById("roomName").value.trim();
- const type=document.getElementById("roomType").value;
+ let name=document.getElementById("newRoomName").value.trim();
+ if(!name){alert("Xona nomini yozing!");return;}
 
- if(!name){alert("Xona nomini kiriting!");return;}
-
- const room={
+ let room={
+  id:Date.now(),
   name:name,
-  code:generateCode(),
-  type:type,
-  players:1,
-  max:20,
+  code:makeCode(),
+  type:document.getElementById("newRoomType").value,
+  max:Number(document.getElementById("newRoomMax").value),
+  mode:document.getElementById("roleMode").value,
+  owner:nickname,
+  players:[nickname],
   status:"Kutmoqda"
  };
 
  rooms.push(room);
- myRoom=room;
-
- document.getElementById("newRoom").textContent=
- type==="private"?"Xona kodi: "+room.code:"Ochiq xona yaratildi!";
-
- document.getElementById("roomName").value="";
- showRooms();
+ saveRooms();
+ currentRoom=room.id;
+ showPage("lobby");
 }
 
-function showRooms(){
- const box=document.getElementById("rooms");
- const publicRooms=rooms.filter(r=>r.type==="public"&&r.status==="Kutmoqda");
-
+function renderRooms(){
+ let box=document.getElementById("publicRooms");
  box.innerHTML="";
-
- if(!publicRooms.length){
-  box.textContent="Ochiq xonalar hozircha yo‘q.";
+ let open=rooms.filter(r=>r.type==="public"&&r.status==="Kutmoqda");
+ if(!open.length){
+  box.textContent="Hozircha ochiq xona yo‘q.";
   return;
  }
-
- publicRooms.forEach(room=>{
-  const div=document.createElement("div");
+ open.forEach(r=>{
+  let div=document.createElement("div");
   div.className="room";
-
-  const title=document.createElement("b");
-  title.textContent=room.name;
-
-  const info=document.createElement("p");
-  info.textContent=room.players+"/"+room.max+" o‘yinchi · "+room.status;
-
-  const btn=document.createElement("button");
-  btn.textContent="KIRISH";
-  btn.onclick=()=>enterRoom(room);
-
+  let title=document.createElement("b");
+  title.textContent=r.name;
+  let info=document.createElement("p");
+  info.className="muted";
+  info.textContent=r.players.length+"/"+r.max+" o‘yinchi · "+r.status;
+  let btn=document.createElement("button");
+  btn.className="full";
+  btn.textContent="XONAGA KIRISH";
+  btn.onclick=()=>enterRoom(r.id);
   div.append(title,info,btn);
   box.appendChild(div);
  });
 }
 
-function enterRoom(room){
- if(room.players>=room.max){
-  alert("Xona to‘la!");
-  return;
- }
-
- room.players++;
- myRoom=room;
- document.getElementById("joinResult").textContent=
- "Siz "+room.name+" xonasiga kirdingiz.";
- showRooms();
+function joinCode(){
+ let code=document.getElementById("codeInput").value.trim();
+ let room=rooms.find(r=>r.code===code&&r.type==="private");
+ if(!room){alert("Xona topilmadi!");return;}
+ enterRoom(room.id);
 }
 
-function joinByCode(){
- const code=document.getElementById("roomCode").value.trim();
- const room=rooms.find(r=>r.type==="private"&&r.code===code);
-
- if(!room){
-  document.getElementById("joinResult").textContent="Xona topilmadi!";
-  return;
+function enterRoom(id){
+ let room=rooms.find(r=>r.id===id);
+ if(!room){alert("Xona topilmadi!");return;}
+ if(room.status!=="Kutmoqda"){alert("O‘yin allaqachon boshlangan!");return;}
+ if(room.players.includes(nickname)){
+  currentRoom=id;showPage("lobby");return;
  }
+ if(room.players.length>=room.max){alert("Xona to‘la!");return;}
+ room.players.push(nickname);
+ currentRoom=id;
+ saveRooms();
+ showPage("lobby");
+}
 
- enterRoom(room);
+function renderLobby(){
+ let r=rooms.find(x=>x.id===currentRoom);
+ if(!r){showPage("rooms");return;}
+ document.getElementById("lobbyName").textContent=r.name;
+ document.getElementById("lobbyCode").textContent=
+ r.type==="private"?r.code:"OCHIQ";
+ document.getElementById("playerCount").textContent=r.players.length;
+ document.getElementById("playerMax").textContent=r.max;
+ document.getElementById("lobbyRole").textContent=
+ r.mode==="auto"?"Avtomatik":"Xona egasi tanlaydi";
+ document.getElementById("lobbyStatus").textContent=r.status.toUpperCase();
+ document.getElementById("lobbyMessage").textContent=
+ r.owner===nickname?"Siz xona egasisiz.":"Xona egasi: "+r.owner;
+ document.getElementById("ownerControls").classList.toggle("hidden",r.owner!==nickname);
+ let list=document.getElementById("playerList");
+ list.innerHTML="";
+ r.players.forEach((p,i)=>{
+  let div=document.createElement("div");
+  div.className="player";
+  div.textContent=(p===r.owner?"👑 ":"👤 ")+p;
+  list.appendChild(div);
+ });
+}
+
+function copyCode(){
+ let r=rooms.find(x=>x.id===currentRoom);
+ if(r&&r.type==="private"){
+  if(navigator.clipboard){
+   navigator.clipboard.writeText(r.code).then(()=>alert("Kod nusxalandi!")).catch(()=>alert("Xona kodi: "+r.code));
+  }else alert("Xona kodi: "+r.code);
+ }
+}
+
+function startGame(){
+ let r=rooms.find(x=>x.id===currentRoom);
+ if(!r||r.owner!==nickname)return;
+ if(r.players.length<6){alert("Kamida 6 o‘yinchi kerak!");return;}
+ r.status="O‘yin boshlandi";
+ saveRooms();
+ renderLobby();
+ alert("O‘yin boshlandi! Haqiqiy rollar tizimi keyingi bosqichda ulanadi.");
+}
+
+function leaveRoom(){
+ let r=rooms.find(x=>x.id===currentRoom);
+ if(r){
+  r.players=r.players.filter(p=>p!==nickname);
+  if(r.owner===nickname){
+   rooms=rooms.filter(x=>x.id!==r.id);
+  }
+  saveRooms();
+ }
+ currentRoom=null;
+ showPage("rooms");
+}
+
+function changeName(){
+ let n=prompt("Yangi ismingiz:",nickname);
+ if(n&&n.trim().length>=2){
+  nickname=n.trim();
+  localStorage.setItem("uzb_name",nickname);
+  updateProfile();
+ }
+}
+
+function logout(){
+ nickname="";
+ localStorage.removeItem("uzb_name");
+ showPage("login");
+}
+
+if(nickname){
+ updateProfile();
+ showPage("home");
+}else{
+ showPage("login");
 }
 </script>
-
 </body>
 </html>
