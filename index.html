@@ -24,7 +24,7 @@ button{
  color:#17110a;font-weight:bold;cursor:pointer
 }
 button.secondary{background:#242334;color:white;border-color:#51445f}
-button.red{background:#762e3d;color:white}
+button.red{background:#762e3d;color:white;border-color:#a34b5d}
 input,select{
  width:100%;padding:13px;margin:7px 0;
  border:1px solid #55475f;border-radius:10px;
@@ -51,6 +51,10 @@ h3{color:#e7d9f0}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .stat{background:#292438;padding:12px;border-radius:10px;text-align:center}
+.frame{
+ padding:12px;border:2px solid #d4a94e;
+ border-radius:15px;text-align:center;font-size:27px
+}
 footer{text-align:center;color:#777;padding:25px}
 </style>
 </head>
@@ -64,8 +68,10 @@ footer{text-align:center;color:#777;padding:25px}
 <nav>
  <button onclick="page('home')">Bosh sahifa</button>
  <button onclick="page('rooms')">Xonalar</button>
+ <button onclick="page('friends')">👥 Do‘stlar</button>
  <button onclick="page('premium')">Premium</button>
  <button onclick="page('profile')">Profil</button>
+ <button onclick="page('admin')">🛡 Boshqaruv</button>
 </nav>
 
 <main>
@@ -81,6 +87,7 @@ footer{text-align:center;color:#777;padding:25px}
  <div class="card">
   <p class="gold">XUSH KELIBSIZ!</p>
   <h2>Salom, <span id="welcome"></span>!</h2>
+  <div id="homePremium" class="muted"></div>
   <p class="muted">Bugun qaysi o‘yinni o‘ynaymiz?</p>
   <div class="grid">
    <div class="stat"><h2>🕵️</h2>MAFIYA</div>
@@ -156,6 +163,16 @@ footer{text-align:center;color:#777;padding:25px}
  </div>
 </section>
 
+<section id="friends" class="hidden">
+ <div class="card">
+  <h2>👥 DO‘STLAR</h2>
+  <p class="muted">Do‘stlaringning o‘yinchi ismini qo‘sh.</p>
+  <input id="friendName" maxlength="20" placeholder="Do‘stning o‘yinchi ismi">
+  <button class="full" onclick="addFriend()">DO‘ST QO‘SHISH</button>
+  <div id="friendList"></div>
+ </div>
+</section>
+
 <section id="premium" class="hidden">
  <div class="card">
   <h2>👑 PREMIUM</h2>
@@ -164,7 +181,15 @@ footer{text-align:center;color:#777;padding:25px}
   <div class="room">🎨 Xona dizaynlari</div>
   <div class="room">🏅 Maxsus nishonlar</div>
   <div class="room">🃏 Rol kartasi dizaynlari</div>
-  <button class="full" onclick="alert('Premium to‘lov tizimi hali ulanmagan.')">PREMIUM</button>
+
+  <div class="room">
+   <h3>👑 1 haftalik Premium</h3>
+   <p><del>20 000 so‘m</del></p>
+   <h2>10 000 so‘m</h2>
+   <span class="badge">50% CHEGIRMA</span>
+  </div>
+  <button class="full" onclick="buyPremium()">PREMIUM OLISH</button>
+  <p class="muted">Tugmani bossangiz, Telegram orqali administratorga yozishingiz mumkin.</p>
   <p class="muted">Premium o‘yin qoidalarida ustunlik bermaydi.</p>
  </div>
 </section>
@@ -172,11 +197,42 @@ footer{text-align:center;color:#777;padding:25px}
 <section id="profile" class="hidden">
  <div class="card">
   <h2>👤 PROFIL</h2>
+  <div class="frame" id="profileFrame">👤</div>
   <p>Ism: <b id="profileName" class="gold"></b></p>
+  <p>Premium: <b id="profilePremium" class="gold">Yo‘q</b></p>
   <p>Reyting: 0</p>
   <p>Daraja: Yangi o‘yinchi</p>
+
+  <h3>🖼 PROFIL RAMKALARI</h3>
+  <div class="grid">
+   <button onclick="setFrame('👑')">👑 Oltin</button>
+   <button onclick="setFrame('💎')">💎 Olmos</button>
+   <button onclick="setFrame('🔥')">🔥 Olov</button>
+   <button onclick="setFrame('⭐')">⭐ Yulduz</button>
+  </div>
   <button class="full secondary" onclick="changeName()">ISMNI O‘ZGARTIRISH</button>
   <button class="full red" onclick="logout()">CHIQISH</button>
+ </div>
+</section>
+
+<section id="admin" class="hidden">
+ <div class="card">
+  <h2>🛡 ADMIN BOSHQARUVI</h2>
+  <p class="muted">Loyiha egasi uchun sinov boshqaruvi.</p>
+
+  <h3>👑 O‘zingga Premium berish</h3>
+  <button class="full" onclick="grantSelf()">O‘ZIMGA PREMIUM BERISH</button>
+
+  <h3>🎁 Boshqa o‘yinchiga Premium berish</h3>
+  <input id="premiumUser" placeholder="O‘yinchi ismi">
+  <button class="full" onclick="grantPremium()">PREMIUM BERISH</button>
+
+  <h3>🎁 Bepul Premium berish</h3>
+  <input id="freePremiumUser" placeholder="O‘yinchi ismi">
+  <button class="full" onclick="grantFreePremium()">BEPUL PREMIUM BERISH</button>
+
+  <h3>📋 Premium egalari</h3>
+  <div id="premiumUsers"></div>
  </div>
 </section>
 
@@ -184,17 +240,28 @@ footer{text-align:center;color:#777;padding:25px}
 <footer>UZB GAME © 2026</footer>
 
 <script>
+const ADMIN_NAME="omading_bor";
 let name=localStorage.getItem("uzb_name")||"";
 let rooms=JSON.parse(localStorage.getItem("uzb_v2_rooms")||"[]");
+let friends=JSON.parse(localStorage.getItem("uzb_friends")||"[]");
+let premiumUsers=JSON.parse(localStorage.getItem("uzb_premium")||"{}");
+let selectedFrame=localStorage.getItem("uzb_frame")||"";
 let active=null;
 
-const botNames=["Sherzod Bot","Jasur Bot","Malika Bot","Aziz Bot",
-"Madina Bot","Temur Bot","Sardor Bot","Dilnoza Bot",
-"Bekzod Bot","Zarina Bot","Otabek Bot"];
+const botNames=[
+ "Sherzod Bot","Jasur Bot","Malika Bot","Aziz Bot",
+ "Madina Bot","Temur Bot","Sardor Bot","Dilnoza Bot",
+ "Bekzod Bot","Zarina Bot","Otabek Bot"
+];
 
 function save(){
  localStorage.setItem("uzb_v2_rooms",JSON.stringify(rooms));
 }
+
+function isAdmin(){
+ return name.toLowerCase()===ADMIN_NAME;
+}
+
 function login(){
  let n=document.getElementById("nickInput").value.trim();
  if(n.length<2){alert("Ismingizni kiriting!");return;}
@@ -203,24 +270,40 @@ function login(){
  update();
  page("home");
 }
+
 function update(){
  document.getElementById("welcome").textContent=name;
  document.getElementById("profileName").textContent=name;
+ document.getElementById("profilePremium").textContent=
+ premiumUsers[name]||"Yo‘q";
+ document.getElementById("homePremium").textContent=
+ premiumUsers[name]?"👑 "+premiumUsers[name]:"";
+ document.getElementById("profileFrame").textContent=selectedFrame||"👤";
 }
+
 function page(id){
  if(!name&&id!=="login")id="login";
- ["login","home","rooms","lobby","premium","profile"].forEach(x=>{
+ if(id==="admin"&&!isAdmin()){
+  alert("Bu bo‘lim faqat administrator uchun!");
+  id="home";
+ }
+ ["login","home","rooms","lobby","friends","premium","profile","admin"].forEach(x=>{
   document.getElementById(x).classList.toggle("hidden",x!==id);
  });
  if(id==="rooms")renderRooms();
  if(id==="lobby")renderLobby();
+ if(id==="friends")renderFriends();
+ if(id==="admin")renderAdmin();
+ if(id==="profile")update();
 }
+
 function code(){
  let c;
  do{c=String(Math.floor(100000+Math.random()*900000));}
  while(rooms.some(r=>r.code===c));
  return c;
 }
+
 function createRoom(){
  let title=document.getElementById("roomName").value.trim();
  let max=Number(document.getElementById("maxPlayers").value);
@@ -234,13 +317,15 @@ function createRoom(){
  let r={
   id:Date.now(),name:title,code:code(),
   type:document.getElementById("roomType").value,
-  max:max,players:players,status:"Kutmoqda"
+  max:max,players:players,status:"Kutmoqda",
+  owner:name
  };
  rooms.push(r);
  active=r.id;
  save();
  page("lobby");
 }
+
 function renderRooms(){
  let box=document.getElementById("roomList");
  box.innerHTML="";
@@ -258,6 +343,7 @@ function renderRooms(){
   d.append(t,p,b);box.append(d);
  });
 }
+
 function joinRoom(id){
  let r=rooms.find(x=>x.id===id);
  if(!r||r.status!=="Kutmoqda"){alert("Xona mavjud emas.");return;}
@@ -266,12 +352,14 @@ function joinRoom(id){
  r.players.push({name:name,bot:false});
  active=id;save();page("lobby");
 }
+
 function joinCode(){
  let c=document.getElementById("codeInput").value.trim();
  let r=rooms.find(x=>x.code===c&&x.type==="private");
  if(!r){alert("Xona topilmadi!");return;}
  joinRoom(r.id);
 }
+
 function renderLobby(){
  let r=rooms.find(x=>x.id===active);
  if(!r){page("rooms");return;}
@@ -284,10 +372,13 @@ function renderLobby(){
  r.players.forEach(p=>{
   let d=document.createElement("div");
   d.className="player";
-  d.textContent=(p.bot?"🤖 ":"👤 ")+p.name;
+  d.textContent=(p.bot?"🤖 ":"👤 ")+p.name+
+   (p.name===r.owner?" — XONA EGASI":"");
   box.append(d);
  });
+ document.getElementById("gameResult").textContent="";
 }
+
 function copyCode(){
  let r=rooms.find(x=>x.id===active);
  if(!r||r.type!=="private")return;
@@ -297,16 +388,22 @@ function copyCode(){
   .catch(()=>alert("Xona kodi: "+r.code));
  }else alert("Xona kodi: "+r.code);
 }
+
 function startGame(){
  let r=rooms.find(x=>x.id===active);
  if(!r)return;
+ if(r.owner!==name){
+  alert("Faqat xona egasi o‘yinni boshlashi mumkin!");
+  return;
+ }
  if(r.players.length<3){alert("Kamida 3 o‘yinchi kerak!");return;}
  r.status="O‘yin boshlandi";
  save();
  document.getElementById("status").textContent="O‘YIN BOSHLANDI";
  document.getElementById("gameResult").textContent=
- "Sinov o‘yini boshlandi. Haqiqiy bot harakatlari va navbatlar keyingi bosqichda qo‘shiladi.";
+ "Sinov o‘yini boshlandi. Haqiqiy rollar va bot harakatlari keyingi bosqichda qo‘shiladi.";
 }
+
 function leaveRoom(){
  let r=rooms.find(x=>x.id===active);
  if(r){
@@ -316,15 +413,120 @@ function leaveRoom(){
  }
  active=null;page("rooms");
 }
+
+function addFriend(){
+ let f=document.getElementById("friendName").value.trim();
+ if(f.length<2){alert("Do‘st ismini kiriting!");return;}
+ if(f.toLowerCase()===name.toLowerCase()){
+  alert("O‘zingizni do‘st sifatida qo‘sha olmaysiz!");return;
+ }
+ if(friends.some(x=>x.toLowerCase()===f.toLowerCase())){
+  alert("Bu do‘st ro‘yxatda bor!");return;
+ }
+ friends.push(f);
+ localStorage.setItem("uzb_friends",JSON.stringify(friends));
+ document.getElementById("friendName").value="";
+ renderFriends();
+}
+
+function renderFriends(){
+ let box=document.getElementById("friendList");
+ box.innerHTML="";
+ if(!friends.length){
+  box.textContent="Hozircha do‘stlar yo‘q.";return;
+ }
+ friends.forEach((f,i)=>{
+  let d=document.createElement("div");
+  d.className="room";
+  let t=document.createElement("span");
+  t.textContent="👤 "+f;
+  let b=document.createElement("button");
+  b.className="red";
+  b.textContent="O‘CHIRISH";
+  b.onclick=()=>{
+   friends.splice(i,1);
+   localStorage.setItem("uzb_friends",JSON.stringify(friends));
+   renderFriends();
+  };
+  d.append(t,b);box.append(d);
+ });
+}
+
+function setFrame(frame){
+ if(!premiumUsers[name]){
+  alert("Maxsus ramkalar uchun Premium kerak!");
+  return;
+ }
+ selectedFrame=frame;
+ localStorage.setItem("uzb_frame",frame);
+ update();
+ alert("Ramka tanlandi!");
+}
+
+function buyPremium(){
+ let message="Salom! Men UZB GAME uchun 1 haftalik Premium olmoqchiman. Narxi: 10 000 so‘m.";
+ let url="https://t.me/omading_bor?text="+encodeURIComponent(message);
+ window.open(url,"_blank");
+}
+
+function renderAdmin(){
+ let box=document.getElementById("premiumUsers");
+ box.innerHTML="";
+ let keys=Object.keys(premiumUsers);
+ if(!keys.length){
+  box.textContent="Hozircha Premium berilmagan.";return;
+ }
+ keys.forEach(u=>{
+  let d=document.createElement("div");
+  d.className="room";
+  d.textContent="👑 "+u+" — "+premiumUsers[u];
+  box.append(d);
+ });
+}
+
+function grantSelf(){
+ if(!isAdmin()){alert("Ruxsat yo‘q!");return;}
+ premiumUsers[name]="1 haftalik Premium";
+ localStorage.setItem("uzb_premium",JSON.stringify(premiumUsers));
+ update();renderAdmin();
+ alert("Sizga Premium berildi!");
+}
+
+function grantPremium(){
+ if(!isAdmin()){alert("Ruxsat yo‘q!");return;}
+ let u=document.getElementById("premiumUser").value.trim();
+ if(u.length<2){alert("O‘yinchi ismini kiriting!");return;}
+ premiumUsers[u]="1 haftalik Premium";
+ localStorage.setItem("uzb_premium",JSON.stringify(premiumUsers));
+ renderAdmin();
+ alert(u+" ga Premium berildi!");
+}
+
+function grantFreePremium(){
+ if(!isAdmin()){alert("Ruxsat yo‘q!");return;}
+ let u=document.getElementById("freePremiumUser").value.trim();
+ if(u.length<2){alert("O‘yinchi ismini kiriting!");return;}
+ premiumUsers[u]="Bepul 1 haftalik Premium";
+ localStorage.setItem("uzb_premium",JSON.stringify(premiumUsers));
+ renderAdmin();
+ alert(u+" ga bepul Premium berildi!");
+}
+
 function changeName(){
  let n=prompt("Yangi ism:",name);
  if(n&&n.trim().length>=2){
-  name=n.trim();localStorage.setItem("uzb_name",name);update();
+  name=n.trim();
+  localStorage.setItem("uzb_name",name);
+  update();
  }
 }
+
 function logout(){
- name="";localStorage.removeItem("uzb_name");page("login");
+ name="";
+ localStorage.removeItem("uzb_name");
+ page("login");
 }
+
 if(name){update();page("home");}
 else page("login");
 </script>
