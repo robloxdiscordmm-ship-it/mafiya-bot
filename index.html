@@ -105,3 +105,172 @@ function share(){
 </script>
 </body>
 </html>
+
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UZB GAME</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101014;color:#fff;font-family:Arial,sans-serif;padding:16px}
+h1,h2{color:#e8bd55}
+h1{text-align:center}
+.card{background:#202027;border:1px solid #554629;border-radius:15px;padding:16px;margin:14px 0}
+input,select,button{width:100%;padding:13px;margin:7px 0;border:0;border-radius:9px;font-size:16px}
+input,select{background:#303039;color:white}
+button{background:#d5aa48;color:#17130a;font-weight:bold}
+button:disabled{opacity:.5}
+.small{color:#aaa;font-size:13px}
+.room{background:#303039;padding:12px;border-radius:10px;margin:10px 0}
+.gold{color:#e8bd55}
+</style>
+</head>
+<body>
+
+<h1>♛ UZB GAME</h1>
+<p style="text-align:center;color:#aaa">O‘yinlar olamiga xush kelibsiz!</p>
+
+<div class="card">
+<h2>👤 Profil</h2>
+<p>O‘yinchi: <b id="playerName">Mehmon</b></p>
+<p>Reyting: <b>0</b></p>
+<p>Holat: <span class="gold">Oddiy a'zo</span></p>
+</div>
+
+<div class="card">
+<h2>🕵️ MAFIYA</h2>
+<p class="small">6–20 nafar o‘yinchi uchun.</p>
+<h3>Xona yaratish</h3>
+<input id="roomName" placeholder="Xona nomini yozing">
+<select id="roomType">
+<option value="public">Kodsiz — hammaga ochiq</option>
+<option value="private">Kodli — maxfiy xona</option>
+</select>
+<button onclick="createRoom()">🏠 XONA YARATISH</button>
+<div id="newRoom"></div>
+</div>
+
+<div class="card">
+<h2>🔐 Kod orqali kirish</h2>
+<input id="roomCode" placeholder="6 xonali xona kodi" maxlength="6" inputmode="numeric">
+<button onclick="joinByCode()">XONAGA KIRISH</button>
+<p id="joinResult" class="small"></p>
+</div>
+
+<div class="card">
+<h2>🌍 Ochiq xonalar</h2>
+<div id="rooms">Ochiq xonalar hozircha yo‘q.</div>
+</div>
+
+<div class="card">
+<h2>👑 PREMIUM</h2>
+<p>Premium — faqat tashqi ko‘rinish uchun.</p>
+<ul>
+<li>✨ Maxsus profil ramkalari</li>
+<li>🎨 Maxsus xona dizaynlari</li>
+<li>🏅 Premium nishonlar</li>
+<li>🃏 Maxsus rol kartalari dizayni</li>
+</ul>
+<button onclick="alert('Premium xarid qilish tizimi keyingi bosqichda ulanadi.')">PREMIUM HAQIDA</button>
+</div>
+
+<div class="card">
+<h2>🎮 O‘yin qoidalari</h2>
+<p>O‘yinchi soni: 6–20</p>
+<p>Rollar: Don, Mafiya, Komissar, Shifokor, Qo‘riqchi, Jurnalist, Manyak, Professor va Tinch aholi.</p>
+</div>
+
+<script>
+let rooms=[];
+let myRoom=null;
+
+function generateCode(){
+ return String(Math.floor(100000+Math.random()*900000));
+}
+
+function createRoom(){
+ const name=document.getElementById("roomName").value.trim();
+ const type=document.getElementById("roomType").value;
+
+ if(!name){alert("Xona nomini kiriting!");return;}
+
+ const room={
+  name:name,
+  code:generateCode(),
+  type:type,
+  players:1,
+  max:20,
+  status:"Kutmoqda"
+ };
+
+ rooms.push(room);
+ myRoom=room;
+
+ document.getElementById("newRoom").textContent=
+ type==="private"?"Xona kodi: "+room.code:"Ochiq xona yaratildi!";
+
+ document.getElementById("roomName").value="";
+ showRooms();
+}
+
+function showRooms(){
+ const box=document.getElementById("rooms");
+ const publicRooms=rooms.filter(r=>r.type==="public"&&r.status==="Kutmoqda");
+
+ box.innerHTML="";
+
+ if(!publicRooms.length){
+  box.textContent="Ochiq xonalar hozircha yo‘q.";
+  return;
+ }
+
+ publicRooms.forEach(room=>{
+  const div=document.createElement("div");
+  div.className="room";
+
+  const title=document.createElement("b");
+  title.textContent=room.name;
+
+  const info=document.createElement("p");
+  info.textContent=room.players+"/"+room.max+" o‘yinchi · "+room.status;
+
+  const btn=document.createElement("button");
+  btn.textContent="KIRISH";
+  btn.onclick=()=>enterRoom(room);
+
+  div.append(title,info,btn);
+  box.appendChild(div);
+ });
+}
+
+function enterRoom(room){
+ if(room.players>=room.max){
+  alert("Xona to‘la!");
+  return;
+ }
+
+ room.players++;
+ myRoom=room;
+ document.getElementById("joinResult").textContent=
+ "Siz "+room.name+" xonasiga kirdingiz.";
+ showRooms();
+}
+
+function joinByCode(){
+ const code=document.getElementById("roomCode").value.trim();
+ const room=rooms.find(r=>r.type==="private"&&r.code===code);
+
+ if(!room){
+  document.getElementById("joinResult").textContent="Xona topilmadi!";
+  return;
+ }
+
+ enterRoom(room);
+}
+</script>
+
+</body>
+</html>
