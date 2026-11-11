@@ -4,71 +4,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UZB GAME — Mafia</title>
+<title>UZB GAME | Mafia</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#080d18;color:#f4f5fa;font-family:Arial,sans-serif}
-header{padding:18px;text-align:center;background:#101a2c;border-bottom:1px solid #293650}
-.logo{font-size:25px;font-weight:900;color:#e8bd62;letter-spacing:2px}
-header small{color:#9caac0}
-main{max-width:600px;margin:auto;padding:16px}
-section{background:#111b2d;border:1px solid #263650;border-radius:17px;padding:18px;margin-bottom:15px}
+body{margin:0;background:#080d17;color:#f4f5fa;font-family:Arial,sans-serif}
+header{padding:17px;text-align:center;background:#101a2b;border-bottom:1px solid #34435d}
+.logo{font-size:27px;font-weight:900;letter-spacing:3px;color:#e8bd62}
+header small{color:#aab6c9}
+main{max-width:650px;margin:auto;padding:14px}
+section{background:#111c2e;border:1px solid #293b57;border-radius:17px;padding:17px;margin-bottom:15px}
 .hidden{display:none!important}
 h2{color:#e8bd62;margin-top:0}
 h3{margin:8px 0}
-p{color:#bdc8d8;line-height:1.5}
-input,select{width:100%;padding:14px;margin:8px 0;background:#0a1322;border:1px solid #354765;border-radius:10px;color:white;font-size:15px}
-button{border:0;border-radius:10px;padding:13px 15px;background:#263750;color:white;font-weight:bold;font-size:14px;cursor:pointer;margin:4px 0}
+p{color:#c0cada;line-height:1.45}
+button{border:0;border-radius:10px;padding:13px;background:#293c59;color:white;font-weight:bold;cursor:pointer;margin:4px 0}
 button:active{transform:scale(.98)}
-.primary{background:#d5a94e;color:#17120a}
-.secondary{background:#243650}
-.danger{background:#63323a}
+.primary{background:linear-gradient(135deg,#f0cc78,#bd8b35);color:#17120a}
+.secondary{background:#263750}
 .full{width:100%}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row button{flex:1}
-.card{background:#0b1423;border:1px solid #293b57;border-radius:13px;padding:14px;margin:10px 0}
+input,select{width:100%;padding:13px;margin:7px 0;background:#0a1424;color:white;border:1px solid #344866;border-radius:10px;font-size:15px}
+.hero{height:175px;border-radius:14px;background:linear-gradient(0deg,#08101de8,#08101d22),url('https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1000') center/cover;display:flex;align-items:end;padding:17px;margin-bottom:15px}
+.hero h2{color:white;text-shadow:0 2px 5px #000;margin:0}
+.card{background:#0b1525;border:1px solid #2a3c58;border-radius:13px;padding:13px;margin:10px 0}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.nav button{font-size:12px;padding:12px 4px}
+.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.row>*{flex:1}
+.avatar{width:75px;height:75px;object-fit:cover;border-radius:50%;border:3px solid #d2a64e;background:#263750}
+.frame{display:inline-block;padding:4px;border:3px solid #d2a64e;border-radius:50%}
+.frame.blue{border-color:#55b5e8}
+.frame.green{border-color:#4ecb91}
+.frame.purple{border-color:#b18aff}
+.frame.red{border-color:#ec7373}
+.frame.diamond{border:4px double #64e5e9;box-shadow:0 0 12px #48cbd9}
 .gold{color:#e8bd62}
-.muted{color:#91a1b9;font-size:13px}
-.avatar{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid #c69b4a;background:#263650}
-.frame{display:inline-block;border:3px solid #c69b4a;border-radius:50%;padding:4px;margin:5px}
-.frame.blue{border-color:#56a6d8}
-.frame.green{border-color:#5cb58a}
-.frame.purple{border-color:#a77be0}
-.frame.red{border-color:#d66d6d}
-.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
-.nav button{font-size:12px;padding:11px 4px}
-.player{display:flex;align-items:center;justify-content:space-between;background:#17243a;padding:12px;border-radius:10px;margin:7px 0}
-.player small{color:#9eacc0}
-.badge{background:#293c59;padding:5px 9px;border-radius:20px;font-size:12px}
-.status{padding:12px;border-radius:10px;background:#1a2b43;margin:10px 0}
-footer{text-align:center;color:#6f809a;padding:20px;font-size:12px}
+.muted{color:#8fa1bb;font-size:13px}
+.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#263b59;font-size:12px}
+.premium-banner{background:linear-gradient(120deg,#39264f,#9b7132);border:1px solid #d6b15e;border-radius:14px;padding:17px}
+.premium-card{background:linear-gradient(145deg,#1b2236,#302347);border:1px solid #9874c6;border-radius:13px;padding:13px;margin:9px 0}
+.room-image{height:105px;border-radius:10px;background-size:cover;background-position:center;margin-bottom:10px}
+.player{display:flex;align-items:center;gap:10px;background:#17253a;padding:9px;border-radius:10px;margin:7px 0}
+.player img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+.player-info{flex:1}
+.player-info small{display:block;color:#9babc1;margin-top:4px}
+.status{background:#1b2b43;padding:13px;border-radius:11px;margin:10px 0}
+#chatMessages{height:210px;overflow-y:auto;background:#08111f;padding:10px;border-radius:10px}
+.chat-line{margin:7px 0;font-size:14px;overflow-wrap:anywhere}
+.chat-line b{color:#e8bd62}
+.chat-form{display:flex;gap:6px}
+.chat-form input{flex:1;min-width:0}
+.chat-form button{white-space:nowrap}
+footer{text-align:center;color:#74849d;font-size:12px;padding:20px}
 </style>
 </head>
 <body>
 
 <header>
  <div class="logo">UZB GAME</div>
- <small>MAFIA • O‘YIN PLATFORMASI</small>
+ <small>MAFIA • PREMIUM COMMUNITY</small>
 </header>
 
 <main>
 
 <section id="login">
- <h2>O‘yinga kirish</h2>
- <p>UZB GAME olamiga xush kelibsiz!</p>
- <input id="nameInput" maxlength="18" placeholder="Ismingizni kiriting">
+ <div class="hero"><h2>UZB GAME olamiga xush kelibsiz</h2></div>
+ <h2>Hisobga kirish</h2>
+ <p>O‘yin uchun ismingizni kiriting.</p>
+ <input id="nameInput" maxlength="18" placeholder="Ismingiz">
  <button class="primary full" onclick="login()">KIRISH</button>
 </section>
 
 <section id="home" class="hidden">
- <h2>Bosh sahifa</h2>
+ <div class="hero"><h2>🎭 MAFIA BOSHLANDI!</h2></div>
  <div class="card">
-  <div class="row" style="align-items:center">
+  <div class="row">
    <img id="homeAvatar" class="avatar" src="">
    <div>
     <h3 id="welcome">O‘yinchi</h3>
-    <span class="badge gold">UZB GAME</span>
-    <p class="muted">Mafia o‘yinchisi</p>
+    <span id="homeBadge" class="badge">Oddiy a'zo</span>
    </div>
   </div>
  </div>
@@ -76,47 +89,59 @@ footer{text-align:center;color:#6f809a;padding:20px;font-size:12px}
   <button onclick="page('rooms')">🏠 Xonalar</button>
   <button onclick="page('gameSetup')">🎮 O‘ynash</button>
   <button onclick="page('profile')">👤 Profil</button>
+  <button onclick="page('premium')">💎 Premium</button>
+  <button onclick="page('rules')">📜 Qoidalar</button>
+  <button onclick="page('stats')">🏆 Natijalar</button>
  </div>
  <div class="card">
   <h3>⚔️ Tezkor o‘yin</h3>
-  <p>Botlar bilan mafiya o‘yinini boshlang.</p>
+  <p>Botlar bilan yangi Mafia o‘yinini boshlang.</p>
   <button class="primary full" onclick="page('gameSetup')">O‘YINNI BOSHLASH</button>
  </div>
- <div class="card">
-  <h3>🏆 Statistikangiz</h3>
-  <div class="row">
-   <div class="card" style="flex:1">
-    <small>O‘yinlar</small><h2 id="homeGames">0</h2>
-   </div>
-   <div class="card" style="flex:1">
-    <small>G‘alabalar</small><h2 id="homeWins">0</h2>
-   </div>
-  </div>
+ <div class="premium-banner">
+  <h2>💎 PREMIUM CLUB</h2>
+  <p>Maxsus ramkalar, nishonlar va mavzular.</p>
+  <button class="primary full" onclick="page('premium')">PREMIUMNI KO‘RISH</button>
  </div>
 </section>
 
 <section id="rooms" class="hidden">
  <h2>🏠 O‘yin xonalari</h2>
- <p>Quyidagi xonalardan birini tanlang.</p>
- <div id="roomList"></div>
+ <div class="card">
+  <div class="room-image" style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800')"></div>
+  <h3>Klassik Mafia</h3>
+  <p>Oddiy Mafia o‘yini.</p>
+  <button class="primary full" onclick="openRoom('Klassik Mafia')">O‘YINGA KO‘RISH</button>
+ </div>
+ <div class="card">
+  <div class="room-image" style="background-image:url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=800')"></div>
+  <h3>Tungi shahar</h3>
+  <p>Tungi mavzudagi o‘yin xonasi.</p>
+  <button class="primary full" onclick="openRoom('Tungi shahar')">O‘YINGA KO‘RISH</button>
+ </div>
+ <div class="card">
+  <div class="room-image" style="background-image:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800')"></div>
+  <h3>Maxsus xona</h3>
+  <p>Botlar bilan o‘yin.</p>
+  <button class="primary full" onclick="openRoom('Maxsus xona')">O‘YINGA KO‘RISH</button>
+ </div>
  <button class="secondary full" onclick="page('home')">← Bosh sahifa</button>
 </section>
 
 <section id="roomInfo" class="hidden">
- <h2>🏠 Xona ma’lumotlari</h2>
+ <h2>🏠 Xona ma'lumoti</h2>
  <div class="card">
-  <h3 id="roomTitle">Mafia xonasi</h3>
-  <p id="roomDescription">O‘yin xonasi</p>
-  <p>Holati: <span class="gold">O‘ynash mumkin</span></p>
+  <h3 id="roomTitle">Mafia</h3>
   <p>O‘yin turi: Botlar bilan</p>
+  <p>Holati: <span class="gold">Tayyor</span></p>
  </div>
  <button class="primary full" onclick="page('gameSetup')">O‘YINGA KIRISH</button>
- <button class="secondary full" onclick="page('rooms')">← Xonalarga qaytish</button>
+ <button class="secondary full" onclick="page('rooms')">← Orqaga</button>
 </section>
 
 <section id="gameSetup" class="hidden">
  <h2>🎮 O‘yin sozlamalari</h2>
- <label>Botlar soni</label>
+ <p>Nechta bot bilan o‘ynaysiz?</p>
  <select id="botCount">
   <option value="2">2 ta bot</option>
   <option value="3">3 ta bot</option>
@@ -130,30 +155,39 @@ footer{text-align:center;color:#6f809a;padding:20px;font-size:12px}
   <option value="11">11 ta bot</option>
  </select>
  <div class="card">
-  <h3>🎭 O‘yin rollari</h3>
+  <h3>🎭 Rollar</h3>
   <p>🔴 Mafiya</p>
   <p>🩺 Doktor</p>
   <p>🔎 Komissar</p>
   <p>👤 Tinch aholi</p>
+  <p class="muted">Rollar o‘yinchilar soniga qarab taqsimlanadi.</p>
  </div>
- <button class="primary full" onclick="newGame()">🤖 BOTLAR BILAN BOSHLASH</button>
+ <button class="primary full" onclick="newGame()">🤖 O‘YINNI BOSHLASH</button>
  <button class="secondary full" onclick="page('home')">← Orqaga</button>
 </section>
 
 <section id="game" class="hidden">
- <h2>🎮 MAFIYA O‘YINI</h2>
+ <h2>🎭 MAFIA O‘YINI</h2>
  <div class="status">
-  <h3 id="phaseTitle">O‘yin boshlandi</h3>
-  <p id="phaseText">O‘yin jarayoni</p>
+  <h3 id="phaseTitle">🌙 Tun</h3>
+  <p id="phaseText">Boshlovchi o‘yinni boshqaradi.</p>
  </div>
  <div class="card">
-  <h3>Sizning rolingiz</h3>
-  <h2 id="myRole" class="gold">Rol</h2>
+  <h3>🎭 Sizning rolingiz</h3>
+  <h2 id="myRole">Rol</h2>
   <p id="roleDescription"></p>
  </div>
  <h3>👥 O‘yinchilar</h3>
  <div id="players"></div>
  <div id="gameActions"></div>
+ <div class="card">
+  <h3>💬 O‘yin chati</h3>
+  <div id="chatMessages"></div>
+  <div class="chat-form">
+   <input id="chatInput" placeholder="Xabar yozing...">
+   <button class="primary" onclick="sendChat()">YUBORISH</button>
+  </div>
+ </div>
  <button class="secondary full" onclick="page('home')">BOSH SAHIFAGA</button>
 </section>
 
@@ -163,199 +197,284 @@ footer{text-align:center;color:#6f809a;padding:20px;font-size:12px}
   <div id="avatarFrame" class="frame">
    <img id="profileAvatar" class="avatar" src="">
   </div>
-  <h3 id="profileName">O‘yinchi</h3>
-  <p class="gold">UZB GAME a’zosi</p>
+  <h3 id="profileName"></h3>
+  <span id="profileBadge" class="badge">Oddiy a'zo</span>
  </div>
- <h3>📷 Profil rasmi</h3>
- <input type="file" id="photoInput" accept="image/*" onchange="changePhoto(event)">
- <h3>🖼 Ramkani tanlang</h3>
+ <h3>📷 Profil rasmini tanlash</h3>
+ <input type="file" accept="image/*" onchange="changePhoto(event)">
+ <h3>🖼 Ramkalar</h3>
  <div class="row">
   <button onclick="setFrame('gold')">🥇 Oltin</button>
   <button onclick="setFrame('blue')">🔵 Ko‘k</button>
   <button onclick="setFrame('green')">🟢 Yashil</button>
   <button onclick="setFrame('purple')">🟣 Binafsha</button>
-  <button onclick="setFrame('red')">🔴 Qizil</button>
+  <button onclick="setFrame('diamond')">💎 Olmos</button>
  </div>
+ <p class="muted">Olmos ramka Premium uchun.</p>
+ <button class="secondary full" onclick="page('home')">← Bosh sahifa</button>
+</section>
+
+<section id="premium" class="hidden">
+ <div class="premium-banner">
+  <h2>💎 PREMIUM CLUB</h2>
+  <p>UZB GAME maxsus bezaklari va imkoniyatlari.</p>
+  <span class="badge">PREMIUM COLLECTION</span>
+ </div>
+ <div class="premium-card">
+  <h3>💎 Olmos ramka</h3>
+  <p>Profilingiz uchun maxsus ramka.</p>
+  <button class="primary full" onclick="unlockPremium('diamond')">NAMOYISH UCHUN OCHISH</button>
+ </div>
+ <div class="premium-card">
+  <h3>👑 Premium nishon</h3>
+  <p>Profilingizda maxsus nishon ko‘rinadi.</p>
+  <button class="primary full" onclick="unlockPremium('badge')">NAMOYISH UCHUN OCHISH</button>
+ </div>
+ <div class="premium-card">
+  <h3>🌌 Tungi mavzu</h3>
+  <p>Maxsus rangli profil bezagi.</p>
+  <button class="primary full" onclick="unlockPremium('theme')">NAMOYISH UCHUN OCHISH</button>
+ </div>
+ <p class="muted">Bu demo versiya. Haqiqiy to‘lov yoki xarid mavjud emas.</p>
+ <button class="secondary full" onclick="page('home')">← Bosh sahifa</button>
+</section>
+
+<section id="stats" class="hidden">
+ <h2>🏆 Natijalar</h2>
  <div class="card">
-  <p>O‘yinlar: <b id="profileGames">0</b></p>
-  <p>G‘alabalar: <b id="profileWins">0</b></p>
-  <p>G‘alaba foizi: <b id="winRate">0%</b></p>
+  <p>Jami o‘yinlar: <b id="statGames">0</b></p>
+  <p>G‘alabalar: <b id="statWins">0</b></p>
+  <p>G‘alaba foizi: <b id="statRate">0%</b></p>
  </div>
  <button class="secondary full" onclick="page('home')">← Bosh sahifa</button>
 </section>
 
 <section id="rules" class="hidden">
- <h2>📜 O‘yin qoidalari</h2>
- <p>🔴 Mafiya — tun bosqichida o‘yinchini tanlaydi.</p>
- <p>🩺 Doktor — bir o‘yinchini himoya qilishga harakat qiladi.</p>
- <p>🔎 Komissar — o‘yinchilarning rolini tekshiradi.</p>
- <p>👤 Tinch aholi — muhokama va ovoz berishda qatnashadi.</p>
- <p>☀️ Kunduzi barcha o‘yinchilar ovoz beradi.</p>
- <p>🌙 Tunda rollar o‘z vazifalarini bajaradi.</p>
+ <h2>📜 Mafia qoidalari</h2>
+ <p>🔴 Mafiya — tunda nishon tanlaydi.</p>
+ <p>🩺 Doktor — bir o‘yinchini himoya qiladi.</p>
+ <p>🔎 Komissar — o‘yinchining rolini tekshiradi.</p>
+ <p>👤 Tinch aholi — muhokama qiladi va ovoz beradi.</p>
+ <p>👑 Boshlovchi — bosqichlarni avtomatik e'lon qiladi.</p>
  <button class="secondary full" onclick="page('home')">← Bosh sahifa</button>
 </section>
 
 </main>
-
-<footer>UZB GAME © 2026 • Mafia Game</footer>
+<footer>UZB GAME © 2026 • Mafia Community</footer>
 
 <script>
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
+const defaultAvatar="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
 
-let name = localStorage.getItem("uzb_name") || "";
-let profile = JSON.parse(localStorage.getItem("uzb_profile") || '{"games":0,"wins":0,"photo":"","frame":"gold"}');
-let game = null;
-let selectedRoom = 1;
+let name=localStorage.getItem("uzbg_name")||"";
+let profile=JSON.parse(localStorage.getItem("uzbg_profile")||'{"games":0,"wins":0,"photo":"","frame":"gold","premium":false,"badge":false,"theme":false}');
+let game=null;
+let roomName="Klassik Mafia";
+let botTimer=null;
 
-const rooms = [
- {id:1,name:"Klassik Mafia",desc:"Oddiy mafiya o‘yini",players:"6–12"},
- {id:2,name:"Tezkor Mafia",desc:"Tezkor o‘yin rejimi",players:"4–8"},
- {id:3,name:"Botlar xonasi",desc:"Botlar bilan o‘ynash",players:"3–12"}
+const botNames=["Aziz","Sardor","Madina","Jasur","Malika","Bekzod","Diyor","Zarina","Temur","Ali","Shahnoza"];
+const botPhotos=[
+ "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100",
+ "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100",
+ "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100",
+ "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
+ "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100",
+ "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100"
 ];
 
-function saveProfile(){
- localStorage.setItem("uzb_profile",JSON.stringify(profile));
-}
-
-function page(id){
- if(!name && id!=="login") id="login";
- document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
- $(id).classList.remove("hidden");
- if(id==="home") update();
- if(id==="rooms") renderRooms();
- if(id==="game") renderGame();
- if(id==="profile") update();
+function save(){
+ localStorage.setItem("uzbg_profile",JSON.stringify(profile));
 }
 
 function login(){
- let value=$("nameInput").value.trim();
- if(!value){alert("Ismingizni kiriting!");return;}
- name=value;
- localStorage.setItem("uzb_name",name);
+ let v=$("nameInput").value.trim();
+ if(!v){alert("Ismingizni kiriting.");return;}
+ name=v;
+ localStorage.setItem("uzbg_name",name);
  page("home");
+}
+
+function page(id){
+ if(!name&&id!=="login")id="login";
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+ $(id).classList.remove("hidden");
+ if(id==="home"||id==="profile"||id==="stats")update();
+ if(id==="rooms"){}
+ if(id==="game"&&game)renderGame();
 }
 
 function update(){
  $("welcome").textContent=name;
  $("profileName").textContent=name;
- $("profileGames").textContent=profile.games||0;
- $("profileWins").textContent=profile.wins||0;
- $("homeGames").textContent=profile.games||0;
- $("homeWins").textContent=profile.wins||0;
- let rate=profile.games?Math.round(profile.wins/profile.games*100):0;
- $("winRate").textContent=rate+"%";
- $("homeAvatar").src=profile.photo||defaultAvatar();
- $("profileAvatar").src=profile.photo||defaultAvatar();
- $("avatarFrame").className="frame "+(profile.frame||"gold");
+ $("homeAvatar").src=profile.photo||defaultAvatar;
+ $("profileAvatar").src=profile.photo||defaultAvatar;
+ $("avatarFrame").className="frame "+profile.frame;
+ $("homeBadge").textContent=profile.badge?"👑 Premium a'zo":"Oddiy a'zo";
+ $("profileBadge").textContent=profile.badge?"👑 Premium a'zo":"Oddiy a'zo";
+ $("statGames").textContent=profile.games;
+ $("statWins").textContent=profile.wins;
+ $("statRate").textContent=profile.games?Math.round(profile.wins/profile.games*100)+"%":"0%";
 }
 
-function defaultAvatar(){
- return "data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#263650"/><circle cx="50" cy="37" r="19" fill="#d5a94e"/><path d="M15 100 Q18 62 50 62 Q82 62 85 100" fill="#d5a94e"/></svg>');
-}
-
-function renderRooms(){
- $("roomList").innerHTML="";
- rooms.forEach(room=>{
-  let div=document.createElement("div");
-  div.className="card";
-  div.innerHTML=`
-   <h3>${room.name}</h3>
-   <p>${room.desc}</p>
-   <p class="muted">O‘yinchilar: ${room.players}</p>
-   <button class="primary full">O‘YINGA KO‘RISH</button>`;
-  div.querySelector("button").onclick=()=>showRoomInfo(room.id);
-  $("roomList").appendChild(div);
- });
-}
-
-function showRoomInfo(id){
- selectedRoom=id;
- let room=rooms.find(r=>r.id===id);
- if(!room)return;
- $("roomTitle").textContent=room.name;
- $("roomDescription").textContent=room.desc;
+function openRoom(title){
+ roomName=title;
+ $("roomTitle").textContent=title;
  page("roomInfo");
 }
 
-function changePhoto(event){
- let file=event.target.files[0];
+function changePhoto(e){
+ let file=e.target.files[0];
  if(!file)return;
- if(file.size>2*1024*1024){
-  alert("Rasm hajmi 2 MB dan kichik bo‘lsin.");
-  return;
- }
+ if(file.size>1500000){alert("Rasm 1.5 MB dan kichik bo‘lsin.");return;}
  let reader=new FileReader();
  reader.onload=()=>{
   profile.photo=reader.result;
-  saveProfile();
-  update();
+  save();update();
  };
  reader.readAsDataURL(file);
 }
 
 function setFrame(frame){
- profile.frame=frame;
- saveProfile();
- update();
+ if(frame==="diamond"&&!profile.premium){
+  alert("Olmos ramka uchun Premium bo‘limidan demo oching.");
+  return;
+ }
+ profile.frame=frame;save();update();
 }
 
-const roleInfo={
- "Mafiya":"Siz mafiya jamoasidasiz. Tunda harakat qilasiz.",
- "Doktor":"Siz bir o‘yinchini himoya qilishingiz mumkin.",
- "Komissar":"Siz bir o‘yinchining rolini tekshirishingiz mumkin.",
- "Tinch aholi":"Siz muhokama va ovoz berishda qatnashasiz."
-};
+function unlockPremium(type){
+ profile.premium=true;
+ if(type==="badge")profile.badge=true;
+ if(type==="theme")profile.theme=true;
+ if(type==="diamond")profile.frame="diamond";
+ save();update();
+ alert("Demo Premium imkoniyati ochildi!");
+}
+
+function shuffle(a){
+ for(let i=a.length-1;i>0;i--){
+  let j=Math.floor(Math.random()*(i+1));
+  [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
 
 function newGame(){
+ clearTimeout(botTimer);
  let count=Number($("botCount").value);
+ let total=count+1;
  let roles=[];
- roles.push("Mafiya");
- if(count>=4)roles.push("Doktor");
- if(count>=5)roles.push("Komissar");
- while(roles.length<count)roles.push("Tinch aholi");
- roles.sort(()=>Math.random()-.5);
+ let mafiaCount=total>=9?2:1;
+ for(let i=0;i<mafiaCount;i++)roles.push("Mafiya");
+ if(total>=4)roles.push("Doktor");
+ if(total>=5)roles.push("Komissar");
+ while(roles.length<total)roles.push("Tinch aholi");
+ roles=shuffle(roles);
 
  let players=[{
-  id:0,name:name,role:roles[0],alive:true,isUser:true
+  id:0,name:name,role:roles[0],alive:true,isUser:true,photo:profile.photo||defaultAvatar
  }];
  for(let i=0;i<count;i++){
   players.push({
    id:i+1,
-   name:["Aziz","Sardor","Jasur","Madina","Bekzod","Malika","Temur","Diyor","Shahnoza","Ali","Zarina"][i],
-   role:roles[i+1]||"Tinch aholi",
+   name:botNames[i],
+   role:roles[i+1],
    alive:true,
-   isUser:false
+   isUser:false,
+   photo:botPhotos[i%botPhotos.length]
   });
  }
 
  game={
-  players:players,
-  day:1,
-  phase:"night",
-  finished:false,
-  voted:false,
-  protected:null,
-  checked:null
+  players,phase:"night",day:1,finished:false,
+  protected:null,target:null,chatStarted:false
  };
+ $("chatMessages").innerHTML="";
  page("game");
+ hostMessage("Xush kelibsiz! "+roomName+" o‘yini boshlandi.");
+ hostMessage("Barcha o‘yinchilar o‘z rollarini ko‘rsin.");
+ hostMessage("Men sizlarning avtomatik boshlovchingizman.");
+ botChat();
+ renderGame();
+}
+
+function addChat(sender,message,color){
+ let box=$("chatMessages");
+ let line=document.createElement("div");
+ line.className="chat-line";
+ let b=document.createElement("b");
+ b.style.color=color||"#e8bd62";
+ b.textContent=sender+": ";
+ let span=document.createElement("span");
+ span.textContent=message;
+ line.append(b,span);
+ box.appendChild(line);
+ box.scrollTop=box.scrollHeight;
+}
+
+function hostMessage(msg){
+ addChat("👑 Boshlovchi",msg,"#e8bd62");
+}
+
+function sendChat(){
+ if(!game||game.finished)return;
+ let input=$("chatInput");
+ let msg=input.value.trim();
+ if(!msg)return;
+ addChat("👤 "+name,msg,"#75caff");
+ input.value="";
+ if(game.phase==="day")setTimeout(botChat,900);
+}
+
+function botChat(){
+ if(!game||game.finished)return;
+ let living=game.players.filter(p=>p.alive&&!p.isUser);
+ if(!living.length)return;
+ let bot=living[Math.floor(Math.random()*living.length)];
+ let texts=[
+  "Menimcha, hamma o‘z fikrini aytishi kerak.",
+  "Hozircha hech kimdan shubhalanmayapman.",
+  "Ovoz berishda shoshilmaylik.",
+  "Men tinch aholi tarafidaman.",
+  "Kimning harakati shubhali ekanini kuzataylik.",
+  "Boshlovchi, keyingi bosqichni boshlang!"
+ ];
+ addChat("👤 "+bot.name,texts[Math.floor(Math.random()*texts.length)]);
 }
 
 function renderGame(){
  if(!game)return;
  let me=game.players[0];
  $("myRole").textContent=me.role;
- $("roleDescription").textContent=roleInfo[me.role];
- $("phaseTitle").textContent=game.phase==="night"?"🌙 Tun":"☀️ Kun";
- $("phaseText").textContent=game.finished?"O‘yin yakunlandi":game.phase==="night"?"Tun bosqichi. Rollar o‘z vazifasini bajaradi.":"Kun bosqichi. Ovoz berish vaqti.";
- $("players").innerHTML="";
+ $("roleDescription").textContent={
+  "Mafiya":"Siz mafiya jamoasidasiz. Tunda nishon tanlang.",
+  "Doktor":"Siz tunda bir o‘yinchini himoya qilasiz.",
+  "Komissar":"Siz o‘yinchilarning rolini tekshirishingiz mumkin.",
+  "Tinch aholi":"Siz kun davomida muhokama va ovoz berishda qatnashasiz."
+ }[me.role];
+
+ $("phaseTitle").textContent=game.phase==="night"?"🌙 TUN":"☀️ KUN";
+ $("phaseText").textContent=game.phase==="night"?"Tun bosqichi. Boshlovchi rollarni chaqirmoqda.":"Kun bosqichi. Muhokama va ovoz berish vaqti.";
+
+ let list=$("players");
+ list.innerHTML="";
  game.players.forEach(p=>{
   let div=document.createElement("div");
   div.className="player";
-  div.innerHTML=`
-   <div><b>${p.isUser?"👤 ":""}${p.name}</b><br>
-   <small>${p.alive?"O‘yinda":"O‘yindan chiqqan"}</small></div>
-   <span class="badge">${p.alive?"Faol":"Chiqdi"}</span>`;
-  $("players").appendChild(div);
+  let img=document.createElement("img");
+  img.src=p.photo;
+  let info=document.createElement("div");
+  info.className="player-info";
+  let strong=document.createElement("b");
+  strong.textContent=(p.isUser?"Siz: ":"")+p.name;
+  let small=document.createElement("small");
+  small.textContent=p.alive?"O‘yinda":"O‘yindan chiqdi";
+  info.append(strong,small);
+  let badge=document.createElement("span");
+  badge.className="badge";
+  badge.textContent=p.alive?"Faol":"Chiqdi";
+  div.append(img,info,badge);
+  list.appendChild(div);
  });
  renderActions();
 }
@@ -375,19 +494,19 @@ function renderActions(){
   let title=document.createElement("h3");
   title.textContent="🌙 Tun harakati";
   box.appendChild(title);
-  if(game.players[0].role==="Mafiya"||game.players[0].role==="Doktor"||game.players[0].role==="Komissar"){
+  let role=game.players[0].role;
+  if(["Mafiya","Doktor","Komissar"].includes(role)){
    let select=document.createElement("select");
    select.id="nightTarget";
    game.players.filter(p=>p.alive&&!p.isUser).forEach(p=>{
-    let opt=document.createElement("option");
-    opt.value=p.id;
-    opt.textContent=p.name;
-    select.appendChild(opt);
+    let o=document.createElement("option");
+    o.value=p.id;o.textContent=p.name;
+    select.appendChild(o);
    });
    box.appendChild(select);
    let btn=document.createElement("button");
    btn.className="primary full";
-   btn.textContent="TANLASH";
+   btn.textContent="TANLASH VA DAVOM ETISH";
    btn.onclick=nightAction;
    box.appendChild(btn);
   }else{
@@ -404,10 +523,9 @@ function renderActions(){
   let select=document.createElement("select");
   select.id="voteTarget";
   game.players.filter(p=>p.alive&&!p.isUser).forEach(p=>{
-   let opt=document.createElement("option");
-   opt.value=p.id;
-   opt.textContent=p.name;
-   select.appendChild(opt);
+   let o=document.createElement("option");
+   o.value=p.id;o.textContent=p.name;
+   select.appendChild(o);
   });
   box.appendChild(select);
   let btn=document.createElement("button");
@@ -425,73 +543,28 @@ function nightAction(){
  if(role==="Doktor")game.protected=target;
  if(role==="Komissar"){
   let p=game.players.find(x=>x.id===target);
+  hostMessage("Komissar tekshiruvni yakunladi.");
   alert(p.name+" ning roli: "+p.role);
  }
  finishNight();
 }
 
 function finishNight(){
- if(game.finished)return;
- if(game.target!==undefined && game.target!==game.protected){
-  let p=game.players.find(x=>x.id===game.target);
-  if(p&&p.alive)p.alive=false;
+ if(!game||game.finished)return;
+ let mafias=game.players.filter(p=>p.alive&&p.role==="Mafiya");
+ let mafiaTarget=game.target;
+ if(!mafiaTarget&&mafias.length){
+  let possible=game.players.filter(p=>p.alive&&p.role!=="Mafiya");
+  if(possible.length)mafiaTarget=possible[Math.floor(Math.random()*possible.length)].id;
  }
- game.target=undefined;
- game.protected=null;
- checkWinner();
- if(!game.finished){
-  game.phase="day";
-  $("phaseText").textContent="Tun tugadi. Endi ovoz berish boshlanadi.";
+ let doctor=game.players.find(p=>p.alive&&p.role==="Doktor"&&!p.isUser);
+ let protectedId=game.protected;
+ if(!protectedId&&doctor){
+  let choices=game.players.filter(p=>p.alive);
+  if(choices.length)protectedId=choices[Math.floor(Math.random()*choices.length)].id;
  }
- renderGame();
-}
-
-function vote(){
- let target=Number($("voteTarget").value);
- let p=game.players.find(x=>x.id===target);
- if(!p||!p.alive)return;
- p.alive=false;
- alert(p.name+" ovoz berish orqali o‘yindan chiqdi.");
- checkWinner();
- if(!game.finished){
-  game.day++;
-  game.phase="night";
- }
- renderGame();
-}
-
-function checkWinner(){
- let mafia=game.players.filter(p=>p.alive&&p.role==="Mafiya").length;
- let others=game.players.filter(p=>p.alive&&p.role!=="Mafiya").length;
- if(mafia===0){
-  endGame("Tinch aholi g‘alaba qozondi!");
- }else if(mafia>=others){
-  endGame("Mafiya g‘alaba qozondi!");
- }else if(!game.players[0].alive){
-  endGame("Siz o‘yindan chiqdingiz. O‘yin davom etadi.");
- }
-}
-
-function endGame(message){
- game.finished=true;
- $("phaseTitle").textContent="🏆 O‘yin yakunlandi";
- $("phaseText").textContent=message;
- if(game.players[0].alive){
-  let mafia=game.players[0].role==="Mafiya";
-  let mafiaLeft=game.players.some(p=>p.alive&&p.role==="Mafiya");
-  if((mafia&&mafiaLeft)||(!mafia&&!mafiaLeft))profile.wins++;
- }
- profile.games++;
- saveProfile();
- update();
-}
-
-if(name){
- $("nameInput").value=name;
- page("home");
-}else{
- page("login");
-}
-</script>
-</body>
-</html>
+ if(mafiaTarget&&mafiaTarget!==protectedId){
+  let victim=game.players.find(p=>p.id===mafiaTarget);
+  if(victim&&victim.alive){
+   victim.alive=false;
+   hostMessage("Tun yakunlandi. "+victi
