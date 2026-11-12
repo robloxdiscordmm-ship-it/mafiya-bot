@@ -699,3 +699,227 @@ function renderActions(){
   const title=document.createElement("h3");
   title.textContent="🌙 Tun harakati";
   box.appendChild(tit
+   hostMessage("Tun yakunlandi. "+victim.name+" o‘yindan chiqdi.");
+  }
+ }else{
+  hostMessage("Tun yakunlandi. Bu kecha hech kim o‘yindan chiqmadi.");
+ }
+
+ game.target=null;
+ game.protected=null;
+
+ if(checkWinner())return;
+
+ game.phase="day";
+ hostMessage("☀️ "+game.day+"-KUN BOSHLANDI!");
+ hostMessage("O‘yinchilar, muhokamani boshlang. Kimdan shubhalanyapsiz?");
+ renderGame();
+ setTimeout(botChat,1000);
+}
+
+function checkWinner(){
+ if(!game)return true;
+
+ let alive=game.players.filter(p=>p.alive);
+ let mafia=alive.filter(p=>p.role==="Mafiya").length;
+ let others=alive.length-mafia;
+
+ if(mafia===0){
+  endGame("Tinch aholi g‘alaba qozondi! 🏆");
+  return true;
+ }
+
+ if(mafia>=others){
+  endGame("Mafiya g‘alaba qozondi! 🔴");
+  return true;
+ }
+
+ return false;
+}
+
+function vote(){
+ if(!game||game.finished)return;
+
+ let select=$("voteTarget");
+ if(!select||!select.value){
+  alert("Ovoz berish uchun o‘yinchini tanlang.");
+  return;
+ }
+
+ let targetId=Number(select.value);
+ let target=game.players.find(p=>p.id===targetId);
+
+ if(!target||!target.alive){
+  alert("Bu o‘yinchi endi faol emas.");
+  return;
+ }
+
+ let votes={};
+ votes[targetId]=1;
+
+ let voters=game.players.filter(p=>p.alive&&!p.isUser);
+
+ voters.forEach(p=>{
+  let choices=game.players.filter(x=>x.alive&&x.id!==p.id);
+  if(choices.length){
+   let choice=choices[Math.floor(Math.random()*choices.length)];
+   votes[choice.id]=(votes[choice.id]||0)+1;
+  }
+ });
+
+ let maxVotes=Math.max(...Object.values(votes));
+ let winners=Object.keys(votes).filter(id=>votes[id]===maxVotes);
+
+ hostMessage("🗳️ Ovoz berish yakunlandi!");
+
+ if(winners.length===1){
+  let eliminated=game.players.find(p=>p.id===Number(winners[0]));
+  if(eliminated){
+   eliminated.alive=false;
+   hostMessage(eliminated.name+" o‘yindan chiqarildi.");
+   hostMessage("Uning roli: "+eliminated.role);
+  }
+ }else{
+  hostMessage("Ovozlar teng bo‘ldi. Hech kim chiqarilmadi.");
+ }
+
+ if(checkWinner())return;
+
+ game.day++;
+ startNight();
+}
+
+function startNight(){
+ if(!game||game.finished)return;
+
+ game.phase="night";
+ game.target=null;
+ game.protected=null;
+
+ hostMessage("🌙 Tun boshlandi!");
+ hostMessage("Hamma jim bo‘lsin. Boshlovchi rollarni chaqirmoqda.");
+
+ renderGame();
+}
+
+function endGame(message){
+ if(!game||game.finished)return;
+
+ game.finished=true;
+
+ let myRole=game.players[0].role;
+ let userWon=
+  (myRole==="Mafiya"&&message.includes("Mafiya g‘alaba"))||
+  (myRole!=="Mafiya"&&message.includes("Tinch aholi g‘alaba"));
+
+ profile.games++;
+ if(userWon)profile.wins++;
+ save();
+
+ hostMessage("🏆 "+message);
+ hostMessage("O‘yin yakunlandi!");
+
+ renderGame();
+
+ let result=document.createElement("div");
+ result.className="status";
+ result.innerHTML="<h3>🏆 O‘YIN NATIJASI</h3>";
+ let resultText=document.createElement("p");
+ resultText.textContent=message;
+ result.appendChild(resultText);
+ $("gameActions").prepend(result);
+}
+
+function renderActions(){
+ let box=$("gameActions");
+ box.innerHTML="";
+
+ if(game.finished){
+  let btn=document.createElement("button");
+  btn.className="primary full";
+  btn.textContent="YANGI O‘YIN";
+  btn.onclick=()=>page("gameSetup");
+  box.appendChild(btn);
+  return;
+ }
+
+ let me=game.players[0];
+
+ if(!me.alive){
+  let info=document.createElement("p");
+  info.textContent="Siz o‘yindan chiqdingiz. O‘yin yakunini kuzating.";
+  box.appendChild(info);
+  return;
+ }
+
+ if(game.phase==="night"){
+  let title=document.createElement("h3");
+  title.textContent="🌙 Tun harakati";
+  box.appendChild(title);
+
+  let role=me.role;
+
+  if(["Mafiya","Doktor","Komissar"].includes(role)){
+   let select=document.createElement("select");
+   select.id="nightTarget";
+
+   game.players.filter(p=>
+    p.alive&&
+    !p.isUser&&
+    (role!=="Mafiya"||p.role!=="Mafiya")
+   ).forEach(p=>{
+    let o=document.createElement("option");
+    o.value=p.id;
+    o.textContent=p.name;
+    select.appendChild(o);
+   });
+
+   box.appendChild(select);
+
+   let btn=document.createElement("button");
+   btn.className="primary full";
+   btn.textContent="TANLASH VA DAVOM ETISH";
+   btn.onclick=nightAction;
+   box.appendChild(btn);
+  }else{
+   let btn=document.createElement("button");
+   btn.className="primary full";
+   btn.textContent="TUNNI O‘TKAZISH";
+   btn.onclick=finishNight;
+   box.appendChild(btn);
+  }
+
+ }else{
+  let title=document.createElement("h3");
+  title.textContent="☀️ Ovoz berish";
+  box.appendChild(title);
+
+  let select=document.createElement("select");
+  select.id="voteTarget";
+
+  game.players.filter(p=>p.alive&&!p.isUser).forEach(p=>{
+   let o=document.createElement("option");
+   o.value=p.id;
+   o.textContent=p.name;
+   select.appendChild(o);
+  });
+
+  box.appendChild(select);
+
+  let btn=document.createElement("button");
+  btn.className="primary full";
+  btn.textContent="OVOZ BERISH";
+  btn.onclick=vote;
+  box.appendChild(btn);
+ }
+}
+
+if(name){
+ $("nameInput").value=name;
+ page("home");
+}else{
+ page("login");
+}
+</script>
+</body>
+</html>
