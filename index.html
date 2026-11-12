@@ -641,256 +641,199 @@ function nightAction(){
   let p=game.players.find(x=>x.id===target);
   if(p){
    hostMessage("Komissar tekshiruvni yakunladi.");
-       alert(p.name+" ning roli: "+p.role);
-    }
-}
+   alert(p.name+" ning roli: "+p.role);
+  }
+ }
 
-finishNight();
+ finishNight();
 }
 
 function finishNight(){
-if(!game||game.finished)return;
+ if(!game||game.finished)return;
 
-let
-mafias=game.players.filter(p=>p.alive&&p.
-role==="Mafiya");
-let mafiaTarget=game.target;
+ let mafias=game.players.filter(p=>p.alive&&p.role==="Mafiya");
+ let mafiaTarget=game.target;
 
-// Agar foydalanuvchi mafiya bo'lmasa,
-bot mafiyalar nishon tanlaydi.
-if(game.players[0].role!
-=="Mafiya"&&mafias.length){
-let
-possible=game.players.filter(p=>p.alive&&
-p.role!=="Mafiya");
-if(possible.length){
+ // Foydalanuvchi mafiya bo‘lmasa, bot mafiya nishon tanlaydi.
+ if(game.players[0].role!=="Mafiya"&&mafias.length){
+  let possible=game.players.filter(p=>p.alive&&p.role!=="Mafiya");
+  if(possible.length){
+   mafiaTarget=possible[Math.floor(Math.random()*possible.length)].id;
+  }
+ }
 
-mafiaTarget=possible[Math.floor(Math.rand
-om()*possible.length)].id;
-}
-}
+ // Foydalanuvchi doktor bo‘lmasa, bot doktor himoya tanlaydi.
+ let doctor=game.players.find(p=>p.alive&&p.role==="Doktor"&&!p.isUser);
+ let protectedId=game.protected;
 
-// Agar foydalanuvchi doktor bo'lmasa,
-bot doktor himoya tanlaydi.
-let
-doctor=game.players.find(p=>p.alive&&p.ro
-le==="Doktor"&&!p.isUser);
-let protectedId=game.protected;
+ if(!protectedId&&doctor){
+  let choices=game.players.filter(p=>p.alive);
+  if(choices.length){
+   protectedId=choices[Math.floor(Math.random()*choices.length)].id;
+  }
+ }
 
-if(!protectedId&&doctor){
-let
-choices=game.players.filter(p=>p.alive);
-if(choices.length){
+ if(mafiaTarget!==null&&mafiaTarget!==undefined&&mafiaTarget!==protectedId){
+  let victim=game.players.find(p=>p.id===mafiaTarget);
 
-protectedId=choices[Math.floor(Math.rando
-m()*choices.length)].id;
-}
-}
+  if(victim&&victim.alive){
+   victim.alive=false;
+   hostMessage("Tun yakunlandi. "+victim.name+" o‘yindan chiqdi.");
+  }else{
+   hostMessage("Tun yakunlandi. Hech kim o‘yindan chiqmadi.");
+  }
+ }else{
+  hostMessage("Tun yakunlandi. Bu kecha hech kim o‘yindan chiqmadi.");
+ }
 
-if(mafiaTarget&&mafiaTarget!
-==protectedId){
-let
-victim=game.players.find(p=>p.id===mafiaT
-arget);
+ game.target=null;
+ game.protected=null;
 
-if(victim&&victim.alive){
-victim.alive=false;
-hostMessage("Tun yakunlandi.
-"+victim.name+" o'yindan chiqdi.");
-}else{
-hostMessage("Tun yakunlandi. Hech kim
-o'yindan chiqmadi.");
-}
-}else{
-hostMessage("Tun yakunlandi. Bu kecha
-hech kim o'yindan chiqmadi.");
-}
+ if(checkWinner())return;
 
-game.target=null;
-game.protected=null;
-
-if(checkWinner())return;
-
-game.phase="day";
-hostMessage("☀️ "+game.day+"-KUN
-BOSHLANDI!");
-hostMessage("O'yinchilar, muhokamani
-boshlang!");
-renderGame();
-botChat();
+ game.phase="day";
+ hostMessage("☀️ "+game.day+"-KUN BOSHLANDI!");
+ hostMessage("O‘yinchilar, muhokamani boshlang!");
+ renderGame();
+ botChat();
 }
 
 function checkWinner(){
-if(!game)return true;
+ if(!game)return true;
 
-let
-alive=game.players.filter(p=>p.alive);
-let
-mafia=alive.filter(p=>p.role==="Mafiya").
-length;
-let others=alive.length-mafia;
+ let alive=game.players.filter(p=>p.alive);
+ let mafia=alive.filter(p=>p.role==="Mafiya").length;
+ let others=alive.length-mafia;
 
-if(mafia===0){
-endGame("Tinch aholi g'alaba qozondi!
-🏆");
-return true;
-}
+ if(mafia===0){
+  endGame("Tinch aholi g‘alaba qozondi! 🏆");
+  return true;
+ }
 
-if(mafia>=others){
-endGame("Mafiya g'alaba qozondi! 🔴");
-return true;
-}
+ if(mafia>=others){
+  endGame("Mafiya g‘alaba qozondi! 🔴");
+  return true;
+ }
 
-return false;
+ return false;
 }
 
 function vote(){
-if(!game||game.finished)return;
+ if(!game||game.finished)return;
 
-let select=$("voteTarget");
-if(!select||!select.value){
-alert("Ovoz berish uchun o'yinchini
-tanlang.");
-return;
-}
+ let select=$("voteTarget");
+ if(!select||!select.value){
+  alert("Ovoz berish uchun o‘yinchini tanlang.");
+  return;
+ }
 
-resolveVote(Number(select.value));
+ resolveVote(Number(select.value));
 }
 
 function resolveVote(userTarget){
-if(!game||game.finished)return;
+ if(!game||game.finished)return;
 
-let votes={};
+ let votes={};
 
-if(userTarget!==null&&userTarget!
-==undefined){
-let
-target=game.players.find(p=>p.id===userTa
-rget);
-if(target&&target.alive){
-votes[userTarget]=(votes[userTarget]||
-0)+1;
-}
-}
+ if(userTarget!==null&&userTarget!==undefined){
+  let target=game.players.find(p=>p.id===userTarget);
+  if(target&&target.alive){
+   votes[userTarget]=(votes[userTarget]||0)+1;
+  }
+ }
 
-let
-voters=game.players.filter(p=>p.alive&&!
-p.isUser);
+ let voters=game.players.filter(p=>p.alive&&!p.isUser);
 
-voters.forEach(p=>{
-let
-choices=game.players.filter(x=>x.alive&&x
-.id!==p.id);
-if(choices.length){
-let
-choice=choices[Math.floor(Math.random()*c
-hoices.length)];
-votes[choice.id]=(votes[choice.id]||
-0)+1;
-}
-});
+ voters.forEach(p=>{
+  let choices=game.players.filter(x=>x.alive&&x.id!==p.id);
+  if(choices.length){
+   let choice=choices[Math.floor(Math.random()*choices.length)];
+   votes[choice.id]=(votes[choice.id]||0)+1;
+  }
+ });
 
-let entries=Object.entries(votes);
+ let entries=Object.entries(votes);
 
-if(!entries.length){
-hostMessage("Ovoz berish uchun o'yinchi
-topilmadi.");
-game.day++;
-startNight();
-return;
-}
+ if(!entries.length){
+  hostMessage("Ovoz berish uchun o‘yinchi topilmadi.");
+  game.day++;
+  startNight();
+  return;
+ }
 
-let
-maxVotes=Math.max(...entries.map(x=>x[1])
-);
-let
-winners=entries.filter(x=>x[1]===maxVotes
-);
+ let maxVotes=Math.max(...entries.map(x=>x[1]));
+ let winners=entries.filter(x=>x[1]===maxVotes);
 
-hostMessage("🗳️ Ovoz berish
-yakunlandi!");
+ hostMessage("🗳️ Ovoz berish yakunlandi!");
 
-if(winners.length===1){
-let
-eliminated=game.players.find(p=>p.id===Nu
-mber(winners[0][0]));
-if(eliminated){
-eliminated.alive=false;
-hostMessage(eliminated.name+" o'yindan
-chiqarildi.");
-hostMessage("Uning roli:
-"+eliminated.role);
-}
-}else{
-hostMessage("Ovozlar teng bo'ldi. Hech
-kim chiqarilmadi.");
-}
+ if(winners.length===1){
+  let eliminated=game.players.find(p=>p.id===Number(winners[0][0]));
+  if(eliminated){
+   eliminated.alive=false;
+   hostMessage(eliminated.name+" o‘yindan chiqarildi.");
+   hostMessage("Uning roli: "+eliminated.role);
+  }
+ }else{
+  hostMessage("Ovozlar teng bo‘ldi. Hech kim chiqarilmadi.");
+ }
 
-if(checkWinner())return;
+ if(checkWinner())return;
 
-game.day++;
-startNight();
+ game.day++;
+ startNight();
 }
 
 function startNight(){
-if(!game||game.finished)return;
+ if(!game||game.finished)return;
 
-game.phase="night";
-game.target=null;
-game.protected=null;
+ game.phase="night";
+ game.target=null;
+ game.protected=null;
 
-hostMessage("🌙 "+game.day+"-TUN
-BOSHLANDI!");
-hostMessage("Hamma jim bo'lsin.
-Boshlovchi rollarni chaqirmoqda.");
+ hostMessage("🌙 "+game.day+"-TUN BOSHLANDI!");
+ hostMessage("Hamma jim bo‘lsin. Boshlovchi rollarni chaqirmoqda.");
 
-renderGame();
+ renderGame();
 }
 
 function endGame(message){
-if(!game||game.finished)return;
+ if(!game||game.finished)return;
 
-game.finished=true;
+ game.finished=true;
 
-let myRole=game.players[0].role;
-let userWon=
+ let myRole=game.players[0].role;
 
-(myRole==="Mafiya"&&message.includes("Maf
-iya g'alaba"))||
-(myRole!
-=="Mafiya"&&message.includes("Tinch aholi
-g'alaba"));
+ let userWon=
+  (myRole==="Mafiya"&&message.includes("Mafiya g‘alaba"))||
+  (myRole!=="Mafiya"&&message.includes("Tinch aholi g‘alaba"));
 
-profile.games++;
-if(userWon)profile.wins++;
-save();
+ profile.games++;
+ if(userWon)profile.wins++;
+ save();
 
-hostMessage("🏆 "+message);
-hostMessage("O'yin yakunlandi!");
+ hostMessage("🏆 "+message);
+ hostMessage("O‘yin yakunlandi!");
 
-renderGame();
+ renderGame();
 
-let
-result=document.createElement("div");
-result.className="status";
+ let result=document.createElement("div");
+ result.className="status";
 
-let
-heading=document.createElement("h3");
-heading.textContent="🏆 O'YIN NATIJASI";
+ let heading=document.createElement("h3");
+ heading.textContent="🏆 O‘YIN NATIJASI";
 
-let
-RESULTText=document.createElement("p");
-RESULTText.textContent=message;
+ let resultText=document.createElement("p");
+ resultText.textContent=message;
 
-result.append(heading,RESULTText);
-$("gameActions").prepend(result);
+ result.append(heading,resultText);
+ $("gameActions").prepend(result);
 }
 
 if(name){
-$("nameInput").value=name;
-page("home");
+ $("nameInput").value=name;
+ page("home");
 }else{
-page("login");
+ page("login");
 }
 </script>
 </body>
